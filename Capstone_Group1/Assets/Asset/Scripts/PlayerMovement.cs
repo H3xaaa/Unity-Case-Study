@@ -5,7 +5,6 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody2D rb;
-     
     private SpriteRenderer sprite;
     private Animator anim;
 
@@ -83,15 +82,20 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.running; 
             sprite.flipX = false;
+            anim.SetBool("running", true);
+            
         }
         else if (dirX < 0f)
         {
             state = MovementState.running;
-            sprite.flipX = true; 
+            sprite.flipX = true;
+            anim.SetBool("running", true);
+
         }
         else
         {
             state = MovementState.idle;
+            anim.SetBool("running", false);
         }
 
         if(rb.velocity.y > .1f)
