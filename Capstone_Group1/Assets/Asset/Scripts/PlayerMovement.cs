@@ -81,21 +81,16 @@ public class PlayerMovement : MonoBehaviour
         if (dirX > 0f)
         {
             state = MovementState.running; 
-            sprite.flipX = false;
-            anim.SetBool("running", true);
-            
+            sprite.flipX = false; 
         }
         else if (dirX < 0f)
         {
             state = MovementState.running;
             sprite.flipX = true;
-            anim.SetBool("running", true);
-
         }
         else
         {
             state = MovementState.idle;
-            anim.SetBool("running", false);
         }
 
         if(rb.velocity.y > .1f)
