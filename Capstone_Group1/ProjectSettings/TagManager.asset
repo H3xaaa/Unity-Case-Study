@@ -49,3 +49,6 @@ TagManager:
   - name: Terrain
     uniqueID: 242781853
     locked: 0
+  - name: Character
+    uniqueID: 99582283
+    locked: 0
