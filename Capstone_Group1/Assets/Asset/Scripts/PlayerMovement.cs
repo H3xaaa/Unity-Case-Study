@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+      
         if (!isCrouching)
         {
             dirX = Input.GetAxisRaw("Horizontal");
@@ -60,6 +61,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
         UpdateAnimationState();
+      
     }   
 
     void OnCollisionEnter2D(Collision2D other)
@@ -72,7 +74,28 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    
+    public void CrouchButton()
+    {
+        if (!isJumping && jumpCount < maxJumps)
+        {
+            dirX = Input.GetAxisRaw("Horizontal");
+            rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                isJumping = true;
+                jumpCount++;
+            }
+        }
+
+        if (Input.GetButtonDown("CrouchButton"))
+        {
+            isCrouching = !isCrouching; // Toggle crouching
+        }
+
+        UpdateAnimationState();
+    }
 
     private void UpdateAnimationState()
     {   
