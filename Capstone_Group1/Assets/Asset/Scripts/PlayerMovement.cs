@@ -8,7 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer sprite;
     private Animator anim;
 
-    private float dirX = 0f; 
+    private float dirX = 0f;
     private bool isJumping;
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float jumpForce = 14f;
@@ -21,48 +21,67 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 respawnPoint;
     public GameObject fallDetector;
 
-
-   
-   // Start is called before the first frame update
+    // Start is called before the first frame update
     private void Start()
     {
-       rb = GetComponent<Rigidbody2D>();   
-       sprite =GetComponent<SpriteRenderer>();
-       anim = GetComponent<Animator>();
-      
-       respawnPoint = transform.position;
-       Debug.Log("Respawn point set to " + respawnPoint.ToString());
+        rb = GetComponent<Rigidbody2D>();
+        sprite = GetComponent<SpriteRenderer>();
+        anim = GetComponent<Animator>();
+
+        respawnPoint = transform.position;
+        Debug.Log("Respawn point set to " + respawnPoint.ToString());
     }
 
     // Update is called once per frame
     private void Update()
     {
-      
         if (!isCrouching)
         {
             dirX = Input.GetAxisRaw("Horizontal");
             rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
-         
-            if (Input.GetButtonDown("Jump") && jumpCount < maxJumps)
-            {
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                isJumping = true;
-                jumpCount++;
-            }  
         }
 
-       if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetButtonDown("Jump") && jumpCount < maxJumps)
         {
-            isCrouching = true;
-        }
-        else if (Input.GetKeyUp(KeyCode.S))
-        {
-            isCrouching = false;
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            isJumping = true;
+            jumpCount++;
         }
 
         UpdateAnimationState();
-      
-    }   
+    }
+
+    public void CrouchButtonDown()
+    {
+        isCrouching = true;
+    }
+
+    public void CrouchButtonUp()
+    {
+        isCrouching = false;
+    }
+
+    public void JumpButton()
+    {
+        if (!isJumping && jumpCount < maxJumps)
+        {
+            Debug.Log("Jumping!");
+            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            isJumping = true;
+            jumpCount++;
+            Debug.Log("Jump Count: " + jumpCount);
+        }
+
+    }
+
+    public void HandleMovementInput()
+    {
+        if (!isCrouching)
+        {
+            dirX = Input.GetAxisRaw("Horizontal");
+            rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+        }
+    }
 
     void OnCollisionEnter2D(Collision2D other)
     {
@@ -70,41 +89,18 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumping = false;
             jumpCount = 0;
-       
         }
-    }
-
-    public void CrouchButton()
-    {
-        if (!isJumping && jumpCount < maxJumps)
-        {
-            dirX = Input.GetAxisRaw("Horizontal");
-            rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
-
-            if (Input.GetButtonDown("Jump"))
-            {
-                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                isJumping = true;
-                jumpCount++;
-            }
-        }
-
-        if (Input.GetButtonDown("CrouchButton"))
-        {
-            isCrouching = !isCrouching; // Toggle crouching
-        }
-
-        UpdateAnimationState();
     }
 
     private void UpdateAnimationState()
-    {   
-        MovementState state;    
+    {
+        MovementState state;
 
+        // ... (rest of your existing code)
         if (dirX > 0f)
         {
-            state = MovementState.running; 
-            sprite.flipX = false; 
+            state = MovementState.running;
+            sprite.flipX = false;
         }
         else if (dirX < 0f)
         {
@@ -116,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
             state = MovementState.idle;
         }
 
-        if(rb.velocity.y > .1f)
+        if (rb.velocity.y > .1f)
         {
             state = MovementState.jumping;
         }
@@ -128,18 +124,19 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.crouching;
         }
-        
+
         anim.SetInteger("state", (int)state);
+
 
         fallDetector.transform.position = new Vector2(transform.position.x, fallDetector.transform.position.y);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(collision.tag == "FallDetector")
+        if (collision.tag == "FallDetector")
         {
             Debug.Log("Player has collided with FallDetector.");
-            transform.position = respawnPoint;  
+            transform.position = respawnPoint;
         }
     }
 }
