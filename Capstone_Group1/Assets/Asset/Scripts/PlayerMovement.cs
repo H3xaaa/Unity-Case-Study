@@ -21,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 respawnPoint;
     public GameObject fallDetector;
 
+
+
     // Start is called before the first frame update
     private void Start()
     {
@@ -35,52 +37,31 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
+
         if (!isCrouching)
         {
             dirX = Input.GetAxisRaw("Horizontal");
             rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+
+            if (Input.GetButtonDown("Jump") && jumpCount < maxJumps)
+            {
+                rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+                isJumping = true;
+                jumpCount++;
+            }
         }
 
-        if (Input.GetButtonDown("Jump") && jumpCount < maxJumps)
+        if (Input.GetKeyDown(KeyCode.S))
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            isJumping = true;
-            jumpCount++;
+            isCrouching = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.S))
+        {
+            isCrouching = false;
         }
 
         UpdateAnimationState();
-    }
 
-    public void CrouchButtonDown()
-    {
-        isCrouching = true;
-    }
-
-    public void CrouchButtonUp()
-    {
-        isCrouching = false;
-    }
-
-    public void JumpButton()
-    {
-        if (!isJumping && jumpCount < maxJumps)
-        {
-            Debug.Log("Jumping!");
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-            isJumping = true;
-            jumpCount++;
-            Debug.Log("Jump Count: " + jumpCount);
-        }
-
-    }
-
-    public void HandleMovementInput()
-    {
-        if (!isCrouching)
-        {
-            dirX = Input.GetAxisRaw("Horizontal");
-            rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
-        }
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -89,14 +70,15 @@ public class PlayerMovement : MonoBehaviour
         {
             isJumping = false;
             jumpCount = 0;
+
         }
     }
+
 
     private void UpdateAnimationState()
     {
         MovementState state;
 
-        // ... (rest of your existing code)
         if (dirX > 0f)
         {
             state = MovementState.running;
@@ -126,7 +108,6 @@ public class PlayerMovement : MonoBehaviour
         }
 
         anim.SetInteger("state", (int)state);
-
 
         fallDetector.transform.position = new Vector2(transform.position.x, fallDetector.transform.position.y);
     }
