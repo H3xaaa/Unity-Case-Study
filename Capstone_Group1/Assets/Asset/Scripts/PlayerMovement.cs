@@ -4,18 +4,26 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    public ProjectileBehaiour ProjectilePrefab;
+    public Transform LaunchOffset;
+
+    public Joystick joystick;
+    private bool canFire = true;
+
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
     private Animator anim;
 
     private float dirX = 0f;
-    private bool isJumping;
+   // private bool isJumping;
     [SerializeField] private float moveSpeed = 7f;
     [SerializeField] private float jumpForce = 14f;
     [SerializeField] private int maxJumps = 2;
+    
+    // float horizontalMove = 0f;
 
     private enum MovementState { idle, running, jumping, falling, crouching }
-    private MovementState state = MovementState.idle;
+    //private MovementState state = MovementState.idle;
     private bool isCrouching = false;
     private int jumpCount;
     private Vector3 respawnPoint;
@@ -37,40 +45,73 @@ public class PlayerMovement : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-
+        float verticalMove = joystick.Vertical;
         if (!isCrouching)
         {
-            dirX = Input.GetAxisRaw("Horizontal");
+            if (joystick.Horizontal >= 0.2f)
+            {
+                dirX = moveSpeed;
+            }
+            else if (joystick.Horizontal <= -.2f)
+            {
+                dirX = -moveSpeed;
+            }
+            else
+            {
+                dirX = 0f;
+            }
+
+            //dirX = joystick.Horizontal * moveSpeed; ;
             rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
 
-            if (Input.GetButtonDown("Jump") && jumpCount < maxJumps)
+            if (verticalMove >= .5f && jumpCount < maxJumps) // Check jump count
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                isJumping = true;
+                //isJumping = true;
                 jumpCount++;
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.S))
+        if (verticalMove <= -0.5f)
         {
             isCrouching = true;
         }
-        else if (Input.GetKeyUp(KeyCode.S))
+        else
         {
             isCrouching = false;
         }
 
         UpdateAnimationState();
+        
 
+        /*if (canFire == true) // Adjust KeyCode.Space to your fire button
+        {
+            FireButton();
+        }*/
+    }
+
+    public void FireButton()
+    {
+        if (canFire)
+        {
+            Instantiate(ProjectilePrefab, LaunchOffset.position, transform.rotation);
+            canFire = false;
+            StartCoroutine(ResetFireCooldown());
+        }
+    }
+
+    private IEnumerator ResetFireCooldown()
+    {
+        yield return new WaitForSeconds(2f); // Adjust this cooldown time as needed
+        canFire = true;
     }
 
     void OnCollisionEnter2D(Collision2D other)
     {
         if (other.gameObject.CompareTag("Ground"))
         {
-            isJumping = false;
+            //isJumping = false;
             jumpCount = 0;
-
         }
     }
 
