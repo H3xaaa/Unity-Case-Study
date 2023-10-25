@@ -62,12 +62,11 @@ public class PlayerMovement : MonoBehaviour
             }
 
             //dirX = joystick.Horizontal * moveSpeed; ;
-            rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
+             rb.velocity = new Vector2(dirX * moveSpeed, rb.velocity.y);
 
-            if (verticalMove >= .5f && jumpCount < maxJumps) // Check jump count
+            if (verticalMove >= 0.5f && jumpCount < maxJumps)
             {
                 rb.velocity = new Vector2(rb.velocity.x, jumpForce);
-                //isJumping = true;
                 jumpCount++;
             }
         }
