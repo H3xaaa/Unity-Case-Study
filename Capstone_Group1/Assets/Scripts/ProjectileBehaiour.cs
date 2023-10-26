@@ -5,6 +5,12 @@ using UnityEngine;
 public class ProjectileBehaiour : MonoBehaviour
 {
     public float Speed = 4.5f;
+    public float Lifetime = 10.0f;
+
+    private void Start()
+    {
+        Destroy(gameObject, Lifetime);
+    }
 
     // Update is called once per frame
     private void Update()
@@ -14,7 +20,11 @@ public class ProjectileBehaiour : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        CancelInvoke("DestroyProjectile");
         Destroy(gameObject);
     }
-
+    private void DestroyProjectile()
+    {
+        Destroy(gameObject);
+    }
 }
