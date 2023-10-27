@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class RotateObject : MonoBehaviour
 {
@@ -16,5 +17,6 @@ public class RotateObject : MonoBehaviour
     {
         particles.Play();
         Destroy(gameObject);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }
