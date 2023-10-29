@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    #region
     public Joystick joystick;
+
+    //shoot variables
+    public ProjectileBehaiour ProjectilePrefab;
+    public Transform LaunchOffset;
+    private bool canFire = true;
 
     private Rigidbody2D rb;
     private SpriteRenderer sprite;
@@ -20,7 +26,7 @@ public class PlayerMovement : MonoBehaviour
     private int jumpCount;
     private Vector3 respawnPoint;
     public GameObject fallDetector;
-
+    #endregion
 
 
     // Start is called before the first frame update
@@ -73,7 +79,6 @@ public class PlayerMovement : MonoBehaviour
 
         UpdateAnimationState();
     }
-
 
     void OnCollisionEnter2D(Collision2D other)
     {
@@ -129,5 +134,22 @@ public class PlayerMovement : MonoBehaviour
             Debug.Log("Player has collided with FallDetector.");
             transform.position = respawnPoint;
         }
+    }
+
+    //Shoot Codes
+    public void FireButton()
+    {
+        if (canFire)
+        {
+            Instantiate(ProjectilePrefab, LaunchOffset.position, transform.rotation);
+            canFire = false;
+            StartCoroutine(ResetFireCooldown());
+        }
+    }
+
+    private IEnumerator ResetFireCooldown()
+    {
+        yield return new WaitForSeconds(0f);
+        canFire = true;
     }
 }
