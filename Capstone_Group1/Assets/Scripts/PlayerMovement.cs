@@ -149,7 +149,7 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator ResetFireCooldown()
     {
-        yield return new WaitForSeconds(0f);
+        yield return new WaitForSeconds(0.5f);
         canFire = true;
     }
 }
