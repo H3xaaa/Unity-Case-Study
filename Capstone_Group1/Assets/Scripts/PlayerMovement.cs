@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce = 14f;
     [SerializeField] private int maxJumps = 2;
 
-    private enum MovementState { idle, running, jumping, falling, crouching }
+    private enum MovementState { idle, running, jumping, falling, crouching, shooting }
     private bool isCrouching = false;
     private int jumpCount;
     private Vector3 respawnPoint;
@@ -120,6 +120,10 @@ public class PlayerMovement : MonoBehaviour
         if (isCrouching)
         {
             state = MovementState.crouching;
+        }
+        if (dirX > 0f)
+        {
+            state = MovementState.shooting;
         }
 
         anim.SetInteger("state", (int)state);
