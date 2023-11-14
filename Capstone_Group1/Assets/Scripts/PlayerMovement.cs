@@ -161,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
             canFire = false;
             StartCoroutine(ResetFireCooldown());
         }*/
-        if (canFire)
+        if (IsIdle() && !IsJumping() && !isCrouching)
         {
             // Trigger the shoot animation
             anim.SetTrigger("ShootTrigger");
@@ -178,5 +178,16 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         canFire = true;
+    }
+    private bool IsIdle()
+    {
+        // Check if the player is in the idle state
+        return anim.GetCurrentAnimatorStateInfo(0).IsName("Player_Idle");
+    }
+
+    private bool IsJumping()
+    {
+        // Check if the player is in the jumping state
+        return anim.GetCurrentAnimatorStateInfo(0).IsName("Player_Jumping");
     }
 }
