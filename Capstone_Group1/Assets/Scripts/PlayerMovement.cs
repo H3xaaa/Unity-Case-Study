@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float jumpForce = 14f;
     [SerializeField] private int maxJumps = 2;
 
-    private enum MovementState { idle, running, jumping, falling, crouching, shooting }
+    private enum MovementState { idle, running, jumping, falling, crouching, shooting}
     private bool isCrouching = false;
     private int jumpCount;
     private Vector3 respawnPoint;
@@ -35,7 +36,6 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
-
         respawnPoint = transform.position;
         Debug.Log("Respawn point set to " + respawnPoint.ToString());
     }
@@ -94,15 +94,27 @@ public class PlayerMovement : MonoBehaviour
     {
         MovementState state;
 
+        /* if (dirX > 0f)
+         {
+             transform.Rotate(0f,180f,0f);
+             state = MovementState.running;
+             //sprite.flipX = false;
+         }
+         else if (dirX < 0f)
+         {
+             transform.Rotate(0f, 0f, 0f);
+             state = MovementState.running;
+             //sprite.flipX = true;
+         }*/
         if (dirX > 0f)
         {
             state = MovementState.running;
-            sprite.flipX = false;
+            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
         }
         else if (dirX < 0f)
         {
             state = MovementState.running;
-            sprite.flipX = true;
+            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
         }
         else
         {
@@ -121,10 +133,10 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.crouching;
         }
-        if (dirX > 0f)
+       /* if (dirX > 0f)
         {
             state = MovementState.shooting;
-        }
+        }*/
 
         anim.SetInteger("state", (int)state);
 
@@ -143,9 +155,20 @@ public class PlayerMovement : MonoBehaviour
     //Shoot Codes
     public void FireButton()
     {
-        if (canFire)
+       /* if (canFire)
         {
             Instantiate(ProjectilePrefab, LaunchOffset.position, transform.rotation);
+            canFire = false;
+            StartCoroutine(ResetFireCooldown());
+        }*/
+        if (canFire)
+        {
+            // Trigger the shoot animation
+            anim.SetTrigger("ShootTrigger");
+
+            // Instantiate the projectile
+            Instantiate(ProjectilePrefab, LaunchOffset.position, transform.rotation);
+
             canFire = false;
             StartCoroutine(ResetFireCooldown());
         }

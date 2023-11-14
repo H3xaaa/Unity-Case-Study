@@ -6893,6 +6893,10 @@ PrefabInstance:
       value: Ammo (Gun Part)
       objectReference: {fileID: 0}
     - target: {fileID: 5283254010941901220, guid: ed0b7bce876877b4488d7cbdb910c3e8, type: 3}
+      propertyPath: moveSpeed
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5283254010941901220, guid: ed0b7bce876877b4488d7cbdb910c3e8, type: 3}
       propertyPath: particles
       value: 
       objectReference: {fileID: 645828226}
@@ -8397,7 +8401,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2095637374
 SpriteRenderer:
