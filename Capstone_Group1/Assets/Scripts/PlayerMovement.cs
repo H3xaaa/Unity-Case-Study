@@ -93,19 +93,6 @@ public class PlayerMovement : MonoBehaviour
     private void UpdateAnimationState()
     {
         MovementState state;
-
-        /* if (dirX > 0f)
-         {
-             transform.Rotate(0f,180f,0f);
-             state = MovementState.running;
-             //sprite.flipX = false;
-         }
-         else if (dirX < 0f)
-         {
-             transform.Rotate(0f, 0f, 0f);
-             state = MovementState.running;
-             //sprite.flipX = true;
-         }*/
         if (dirX > 0f)
         {
             state = MovementState.running;
@@ -133,13 +120,7 @@ public class PlayerMovement : MonoBehaviour
         {
             state = MovementState.crouching;
         }
-       /* if (dirX > 0f)
-        {
-            state = MovementState.shooting;
-        }*/
-
         anim.SetInteger("state", (int)state);
-
         fallDetector.transform.position = new Vector2(transform.position.x, fallDetector.transform.position.y);
     }
 
@@ -155,13 +136,7 @@ public class PlayerMovement : MonoBehaviour
     //Shoot Codes
     public void FireButton()
     {
-       /* if (canFire)
-        {
-            Instantiate(ProjectilePrefab, LaunchOffset.position, transform.rotation);
-            canFire = false;
-            StartCoroutine(ResetFireCooldown());
-        }*/
-        if (IsIdle() && !IsJumping() && !isCrouching)
+        if (IsIdle() && !IsJumping() && !isCrouching && canFire)
         {
             // Trigger the shoot animation
             anim.SetTrigger("ShootTrigger");
@@ -190,4 +165,5 @@ public class PlayerMovement : MonoBehaviour
         // Check if the player is in the jumping state
         return anim.GetCurrentAnimatorStateInfo(0).IsName("Player_Jumping");
     }
+   
 }
