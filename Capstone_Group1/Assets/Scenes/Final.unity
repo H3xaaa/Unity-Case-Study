@@ -5916,12 +5916,13 @@ GameObject:
   - component: {fileID: 1138587192}
   - component: {fileID: 1138587191}
   - component: {fileID: 1138587190}
-  - component: {fileID: 1138587194}
   - component: {fileID: 1138587193}
   - component: {fileID: 1138587195}
+  - component: {fileID: 1138587196}
+  - component: {fileID: 1138587197}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: Untagged
+  m_TagString: StaticEnemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6006,8 +6007,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138587189}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 0.84, y: 0.28, z: 0}
-  m_LocalScale: {x: 0.3, y: 0.3, z: 1}
+  m_LocalPosition: {x: 1.31, y: 1, z: 0}
+  m_LocalScale: {x: 0.059097297, y: 0.059097297, z: 0.19699098}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -6034,22 +6035,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!70 &1138587194
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1138587189}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.1256887, y: -1.5082741}
-  m_Size: {x: 8.881379, y: 22.526562}
-  m_Direction: 0
 --- !u!114 &1138587195
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6063,6 +6048,48 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   moveSpeed: 1
+--- !u!61 &1138587196
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138587189}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -1.9294853, y: -3.1099997}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 53.9375, y: 121.9375}
+    newSize: {x: 8.63, y: 19.51}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 15.701029, y: 20.113052}
+  m_EdgeRadius: 0
+--- !u!114 &1138587197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138587189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbc670647cc293443b60bedf6b3935a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemySpeed: 1
+  startFollowRange: 5
+  damageRange: 5
+  damageAgainDelay: 1
 --- !u!1 &1603322325
 GameObject:
   m_ObjectHideFlags: 0
@@ -6078,9 +6105,10 @@ GameObject:
   - component: {fileID: 1603322331}
   - component: {fileID: 1603322334}
   - component: {fileID: 1603322335}
+  - component: {fileID: 1603322336}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6306,11 +6334,27 @@ CapsuleCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 11.8125, y: 27.562504}
   m_Direction: 0
+--- !u!114 &1603322336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603322325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbc670647cc293443b60bedf6b3935a0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enemySpeed: 1
+  startFollowRange: 5
+  damageRange: 0.5
+  damageAgainDelay: 1
 --- !u!1 &1715354591
 GameObject:
   m_ObjectHideFlags: 0

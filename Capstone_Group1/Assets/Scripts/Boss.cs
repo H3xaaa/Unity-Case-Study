@@ -7,12 +7,12 @@ public class Boss : MonoBehaviour
     [SerializeField] float moveSpeed = 1f;
 
     Rigidbody2D myRigidbody;
-    CapsuleCollider2D myCapsuleCollider;
+    BoxCollider2D myBoxCollider;
     // Start is called before the first frame update
     void Start()
     {
         myRigidbody.GetComponent<Rigidbody2D>();
-        myCapsuleCollider = GetComponent<CapsuleCollider2D>()
+        myBoxCollider = GetComponent<BoxCollider2D>()
 ;    }
 
     // Update is called once per frame
