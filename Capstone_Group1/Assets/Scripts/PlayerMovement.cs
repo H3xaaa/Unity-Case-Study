@@ -27,6 +27,10 @@ public class PlayerMovement : MonoBehaviour
     private int jumpCount;
     private Vector3 respawnPoint;
     public GameObject fallDetector;
+
+
+    public float bulletSpeed = 10f;
+
     #endregion
 
 
@@ -38,6 +42,11 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         respawnPoint = transform.position;
         Debug.Log("Respawn point set to " + respawnPoint.ToString());
+
+
+        GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeed, 0);
+
+        // Destroy the bullet after the specified lifetime
     }
 
     // Update is called once per frame

@@ -7,28 +7,43 @@ public class Bossing : MonoBehaviour
     public GameObject player;
     public bool flip;
     public float speed;
-    // Start is called before the first frame update
+    public float aggroRange = 7f; // Set the aggro range as needed
+    private Animator animator;
+
     void Start()
     {
-        
+        animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
-    private void Update()
+    void Update()
     {
         Vector3 scale = transform.localScale;
 
-        if (player.transform.position.x > transform.position.x)
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+
+        if (distanceToPlayer <= aggroRange)
         {
-            scale.x = Mathf.Abs(scale.x) * -1* (flip ? -1 : 1);
-            transform.Translate(x: speed * Time.deltaTime, y: 0, z: 0);
-            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            if (player.transform.position.x > transform.position.x)
+            {
+                scale.x = Mathf.Abs(scale.x) * -1 * (flip ? -1 : 1);
+                transform.Translate(x: speed * Time.deltaTime, y: 0, z: 0);
+                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            }
+            else
+            {
+                scale.x = Mathf.Abs(scale.x) * (flip ? -1 : 1);
+                transform.Translate(x: speed * Time.deltaTime * -1, y: 0, z: 0);
+                transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            }
+
+            // Set the movement animation here
+            animator.SetBool("IsMoving", true);
         }
         else
         {
-            scale.x = Mathf.Abs(scale.x) * (flip ? - 1 : 1);
-            transform.Translate(x:speed * Time.deltaTime * -1, y:0, z:0);
-            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            // Player is out of range, play idle animation
+            // You need to set up an "IsMoving" parameter in your Animator and transition to the idle animation when IsMoving is false.
+            animator.SetBool("IsMoving", false);
         }
 
         transform.localScale = scale;
