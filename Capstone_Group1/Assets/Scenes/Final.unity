@@ -5917,7 +5917,6 @@ GameObject:
   - component: {fileID: 1138587191}
   - component: {fileID: 1138587190}
   - component: {fileID: 1138587193}
-  - component: {fileID: 1138587195}
   - component: {fileID: 1138587196}
   - component: {fileID: 1138587197}
   m_Layer: 0
@@ -6007,7 +6006,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138587189}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
-  m_LocalPosition: {x: 1.31, y: 1, z: 0}
+  m_LocalPosition: {x: 1.44, y: 1.08, z: 0}
   m_LocalScale: {x: 0.059097297, y: 0.059097297, z: 0.19699098}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -6035,19 +6034,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
---- !u!114 &1138587195
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1138587189}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fe41d25e04040f347a583f8905154d5b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 1
 --- !u!61 &1138587196
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -6058,10 +6044,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -1.9294853, y: -3.1099997}
+  m_Offset: {x: 0.40557718, y: -2.5258331}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -6072,7 +6058,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 15.701029, y: 20.113052}
+  m_Size: {x: 31.883953, y: 117.69023}
   m_EdgeRadius: 0
 --- !u!114 &1138587197
 MonoBehaviour:
@@ -6083,13 +6069,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1138587189}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dbc670647cc293443b60bedf6b3935a0, type: 3}
+  m_Script: {fileID: 11500000, guid: eb9988cc27552244ea603252e40f96ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemySpeed: 1
-  startFollowRange: 5
-  damageRange: 5
-  damageAgainDelay: 1
+  player: {fileID: 1603322325}
+  flip: 1
+  speed: 5
 --- !u!1 &1603322325
 GameObject:
   m_ObjectHideFlags: 0
@@ -6173,7 +6158,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1603322325}
   m_LocalRotation: {x: 0, y: 0, z: -0.0026528174, w: 0.9999965}
-  m_LocalPosition: {x: -4.39, y: 0.33, z: 0}
+  m_LocalPosition: {x: -4.39, y: -0.16, z: 0}
   m_LocalScale: {x: 0.19740003, y: 0.1695, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

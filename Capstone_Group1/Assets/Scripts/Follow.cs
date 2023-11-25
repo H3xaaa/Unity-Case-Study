@@ -53,7 +53,7 @@ public class Follow : MonoBehaviour
 
         if (damagedPlayer) { yield return new WaitForSeconds(damageAgainDelay); damagedPlayer = false; } //If first time getting in range damage immediately
 
-        Debug.Log("Damage player!"); //You can put whatever you want here
+        //Debug.Log("Damage player!"); //You can put whatever you want here
         damagedPlayer = true;
         damagePlayerCalled = false;
     }
