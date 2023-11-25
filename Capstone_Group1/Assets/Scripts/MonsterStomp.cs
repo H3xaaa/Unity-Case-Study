@@ -8,7 +8,7 @@ public class MonsterStomp : MonoBehaviour
     {
        if(collision.collider.gameObject.tag == "Weak Point")
         {
-            collision.gameObject.GetComponent<HealthChar>().TakeDamage(1);
+            collision.gameObject.GetComponent<HealthBoss>().TakeDamage(1);
         }
     }
 }
