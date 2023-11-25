@@ -5951,9 +5951,10 @@ GameObject:
   - component: {fileID: 1138587196}
   - component: {fileID: 1138587197}
   - component: {fileID: 1138587198}
+  - component: {fileID: 1138587199}
   m_Layer: 0
   m_Name: Boss
-  m_TagString: StaticEnemy
+  m_TagString: Weak Point
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6108,7 +6109,7 @@ MonoBehaviour:
   player: {fileID: 1603322325}
   flip: 1
   speed: 5
-  aggroRange: 7
+  aggroRange: 10
 --- !u!114 &1138587198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6123,6 +6124,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 1558824079614334822, guid: 2416601bfa1a053478e9b3c5c3d6dc8f, type: 3}
   bulletPos: {fileID: 122965327}
+--- !u!114 &1138587199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1138587189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03419607f509f4e4c87761442af3059e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  currentHealth: 3
 --- !u!1 &1603322325
 GameObject:
   m_ObjectHideFlags: 0
@@ -6139,6 +6154,7 @@ GameObject:
   - component: {fileID: 1603322334}
   - component: {fileID: 1603322335}
   - component: {fileID: 1603322336}
+  - component: {fileID: 1603322337}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -6389,6 +6405,20 @@ MonoBehaviour:
   startFollowRange: 5
   damageRange: 0.5
   damageAgainDelay: 1
+--- !u!114 &1603322337
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603322325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30311c3f3e3ba354f83d15017674ebe9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 3
+  currentHealth: 3
 --- !u!1 &1715354591
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -174,5 +175,4 @@ public class PlayerMovement : MonoBehaviour
         // Check if the player is in the jumping state
         return anim.GetCurrentAnimatorStateInfo(0).IsName("Player_Jumping");
     }
-   
 }

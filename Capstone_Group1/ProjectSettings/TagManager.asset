@@ -7,6 +7,8 @@ TagManager:
   - Ground
   - FallDetector
   - StaticEnemy
+  - Weak Point
+  - Bullet
   layers:
   - Default
   - TransparentFX
