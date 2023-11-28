@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class CharacterStomp : MonoBehaviour
 {
+    #region
     /*public void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.gameObject.tag == "Player")
@@ -11,6 +12,7 @@ public class CharacterStomp : MonoBehaviour
             collision.gameObject.GetComponent<HealthPlayer>().TakeDamage(1);
         }
     }*/
+    #endregion
     public int damageAmount = 1; // Adjust the damage amount as needed
 
     void OnTriggerEnter2D(Collider2D other)

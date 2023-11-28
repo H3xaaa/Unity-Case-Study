@@ -7,6 +7,7 @@ public class HealthPlayer : MonoBehaviour
 {
     public int maxHealth = 3;
     public int currentHealth;
+    public HealthBar healthBar;
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,7 @@ public class HealthPlayer : MonoBehaviour
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
+        healthBar.SetHealth(currentHealth);
         if (currentHealth <= 0)
         {
             Scene currentScene = SceneManager.GetActiveScene();
