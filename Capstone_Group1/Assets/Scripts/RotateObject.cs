@@ -13,6 +13,9 @@ public class RotateObject : MonoBehaviour
 
     private Vector2 initialPosition;
     private bool movingUp = true;
+    public int collectItem = 0;
+
+    public Canvas canvas;
 
     void Start()
     {
@@ -21,16 +24,22 @@ public class RotateObject : MonoBehaviour
 
     void Update()
     {
-        //transform.Rotate(Vector3.up, rotationSpeed * Time.deltaTime);
         MoveUpDownLoop();
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         particles.Play();
-        Destroy(gameObject);
-        //SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        Invoke("DestroyGameObject", 0.3f);
+        collectItem++;
+        ShowCanvas();
     }
+
+    void DestroyGameObject()
+    {
+        Destroy(gameObject);
+    }
+
     void MoveUpDownLoop()
     {
         Vector2 targetPosition = movingUp ? initialPosition + Vector2.up * moveDistance : initialPosition;
@@ -42,5 +51,10 @@ public class RotateObject : MonoBehaviour
         {
             movingUp = !movingUp;
         }
+    }
+
+    void ShowCanvas()
+    {
+        canvas.gameObject.SetActive(true);
     }
 }

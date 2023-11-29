@@ -6,6 +6,7 @@ public class HealthBoss : MonoBehaviour
 {
     public int maxHealth = 3;
     public int currentHealth;
+    public HealthBar healthBar;
 
     // Start is called before the first frame update
     void Start()
@@ -20,9 +21,10 @@ public class HealthBoss : MonoBehaviour
     }
 
     public void TakeDamage(int amount)
-    { 
-        currentHealth -= amount; 
-        if(currentHealth <= 0) 
+    {
+        currentHealth -= amount;
+        healthBar.SetHealth(currentHealth);
+        if (currentHealth <= 0) 
         { 
             Destroy(gameObject);
         }

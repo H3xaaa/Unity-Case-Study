@@ -9,6 +9,7 @@ TagManager:
   - StaticEnemy
   - Weak Point
   - Bullet
+  - RotateObject
   layers:
   - Default
   - TransparentFX

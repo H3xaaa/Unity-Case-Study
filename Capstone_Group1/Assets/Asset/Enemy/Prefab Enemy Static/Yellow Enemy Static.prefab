@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2762406800194355791}
   - component: {fileID: 2762406800194355825}
   - component: {fileID: 2762406800194355790}
+  - component: {fileID: 1206506367136479027}
   m_Layer: 0
   m_Name: fallforu (1)
   m_TagString: FallDetector
@@ -111,6 +112,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1206506367136479027
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2762406800194355788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 427cc0285b5626b47a5cb5f954f2d4c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageAmount: 1
 --- !u!1 &2762406800425454103
 GameObject:
   m_ObjectHideFlags: 0
