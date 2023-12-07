@@ -22,7 +22,7 @@ public class HealthBoss : MonoBehaviour
         if (currentHealth <= 0) 
         { 
             //Destroy(gameObject);
-            SceneManager.LoadScene("2.5");
+            SceneManager.LoadScene("Last");
         }
     }
 }
