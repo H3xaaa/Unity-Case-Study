@@ -7,6 +7,10 @@ using UnityEngine.UI;
 public class PlayerMovement : MonoBehaviour
 {
     #region
+    public AudioClip yourSoundEffect; // Reference to your sound effect clip
+    private AudioSource audioSource;
+
+
     public Joystick joystick;
 
     //shoot variables
@@ -29,9 +33,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 respawnPoint;
     public GameObject fallDetector;
 
-
     public float bulletSpeed = 10f;
-
     #endregion
 
 
@@ -43,11 +45,8 @@ public class PlayerMovement : MonoBehaviour
         anim = GetComponent<Animator>();
         respawnPoint = transform.position;
         Debug.Log("Respawn point set to " + respawnPoint.ToString());
-
-
         GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeed, 0);
-
-        // Destroy the bullet after the specified lifetime
+        audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -99,7 +98,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
     private void UpdateAnimationState()
     {
         MovementState state;
@@ -148,17 +146,20 @@ public class PlayerMovement : MonoBehaviour
     {
         if (IsIdle() && !IsJumping() && !isCrouching && canFire)
         {
+            //audioSource.clip = yourSoundEffect;
+            audioSource.Play();
             // Trigger the shoot animation
             anim.SetTrigger("ShootTrigger");
 
             // Instantiate the projectile
             Instantiate(ProjectilePrefab, LaunchOffset.position, transform.rotation);
+            audioSource.clip = yourSoundEffect;
+            audioSource.Play();
 
             canFire = false;
             StartCoroutine(ResetFireCooldown());
         }
     }
-
     private IEnumerator ResetFireCooldown()
     {
         yield return new WaitForSeconds(0.5f);

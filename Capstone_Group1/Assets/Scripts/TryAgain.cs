@@ -16,6 +16,6 @@ public class TryAgain : MonoBehaviour
         // Load the current scene by name
         SceneManager.LoadScene(currentSceneName);
         canvas.gameObject.SetActive(false);
-        Time.timeScale = 0f;
+        //Time.timeScale = 0f;
     }
 }
