@@ -5,13 +5,17 @@ using UnityEngine.SceneManagement;
 
 public class HealthPlayer : MonoBehaviour
 {
+    public Canvas canvas;
     public int maxHealth = 3;
     public int currentHealth;
     public HealthBar healthBar;
+    public Canvas Canvas1;
+    public Canvas Canvas2;
 
     // Start is called before the first frame update
     void Start()
     {
+        canvas.gameObject.SetActive(false);
         currentHealth = maxHealth;
     }
 
@@ -27,8 +31,9 @@ public class HealthPlayer : MonoBehaviour
         healthBar.SetHealth(currentHealth);
         if (currentHealth <= 0)
         {
-            Scene currentScene = SceneManager.GetActiveScene();
-            SceneManager.LoadScene(currentScene.name);
+            canvas.gameObject.SetActive(true);
+            Canvas1.gameObject.SetActive(false);
+            Canvas2.gameObject.SetActive(false);
         }
     }
 }

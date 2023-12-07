@@ -5,11 +5,11 @@ using UnityEngine;
 public class Follow : MonoBehaviour
 {
     [SerializeField] float enemySpeed = 1f;       //HERE are the presets for your enemy! feel free to change any of the values here
-    [SerializeField] float startFollowRange = 5f; //only in the inspector though because the inspectors values override these values
+    [SerializeField] float startFollowRange = 6f; //only in the inspector though because the inspectors values override these values
     [SerializeField] float damageRange = 0.5f;
     [SerializeField] float damageAgainDelay = 1f;
 
-    float distance = 0f; //These check don't need to be changed anywhere cause its set by code
+    float distance = 0f;
     bool damagePlayerCalled = false;
     bool damagedPlayer = false;
 
@@ -17,14 +17,13 @@ public class Follow : MonoBehaviour
 
     void Start()
     {
-        player = GameObject.FindGameObjectWithTag("Player"); //Player MUST have a "Player.cs" script on it in order to find Player
+        player = GameObject.FindGameObjectWithTag("Player");
 
-        //player = GameObject.FindGameObjectWithTag("TagName");  //If you want to find by Tag this is what you do
     }
 
     void Update()
     {
-        CheckForPlayer(); //We check if player is in range every frame
+        CheckForPlayer();
     }
 
     private void CheckForPlayer()

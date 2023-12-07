@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HealthBoss : MonoBehaviour
 {
@@ -14,19 +15,14 @@ public class HealthBoss : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void TakeDamage(int amount)
     {
         currentHealth -= amount;
         healthBar.SetHealth(currentHealth);
         if (currentHealth <= 0) 
         { 
-            Destroy(gameObject);
+            //Destroy(gameObject);
+            SceneManager.LoadScene("2.5");
         }
     }
 }

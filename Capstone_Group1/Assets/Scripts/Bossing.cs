@@ -36,13 +36,10 @@ public class Bossing : MonoBehaviour
                 transform.rotation = Quaternion.Euler(0f, 0f, 0f);
             }
 
-            // Set the movement animation here
             animator.SetBool("IsMoving", true);
         }
         else
         {
-            // Player is out of range, play idle animation
-            // You need to set up an "IsMoving" parameter in your Animator and transition to the idle animation when IsMoving is false.
             animator.SetBool("IsMoving", false);
         }
 
