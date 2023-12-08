@@ -44,18 +44,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
-  - name: Backgrounds
-    uniqueID: 2561870623
-    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Backgrounds
+    uniqueID: 2561870623
     locked: 0
   - name: Terrain
     uniqueID: 242781853
     locked: 0
   - name: Character
     uniqueID: 99582283
-    locked: 0
-  - name: Boss
-    uniqueID: 2923223173
     locked: 0
