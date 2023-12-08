@@ -8,6 +8,8 @@ public class HealthBoss : MonoBehaviour
     public int maxHealth = 3;
     public int currentHealth;
     public HealthBar healthBar;
+    public string sceneName;
+
 
     // Start is called before the first frame update
     void Start()
@@ -20,9 +22,9 @@ public class HealthBoss : MonoBehaviour
         currentHealth -= amount;
         healthBar.SetHealth(currentHealth);
         if (currentHealth <= 0) 
-        { 
+        {
             //Destroy(gameObject);
-            SceneManager.LoadScene("Last");
+            SceneManager.LoadScene(sceneName);
         }
     }
 }
