@@ -44345,7 +44345,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2868476221289860247, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 622.2684
+      value: 1731.681
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868476221289860247, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 333.5248
       objectReference: {fileID: 0}
     - target: {fileID: 2868476221289860247, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -44354,6 +44358,22 @@ PrefabInstance:
     - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_text
       value: It ends here! Tsukasa! I will bring justice to my clan!
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
       objectReference: {fileID: 0}
     - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_HorizontalAlignment
@@ -44397,7 +44417,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7798902815058388298, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 256.2008
+      value: 512.9652
       objectReference: {fileID: 0}
     - target: {fileID: 7798902815058388298, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -48196,6 +48216,22 @@ PrefabInstance:
       value: You can try, but you won't succeed.
       objectReference: {fileID: 0}
     - target: {fileID: 5248255171115842695, guid: 571c5bacb548ab04b85f3a47a242904a, type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5248255171115842695, guid: 571c5bacb548ab04b85f3a47a242904a, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5248255171115842695, guid: 571c5bacb548ab04b85f3a47a242904a, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 5248255171115842695, guid: 571c5bacb548ab04b85f3a47a242904a, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 5248255171115842695, guid: 571c5bacb548ab04b85f3a47a242904a, type: 3}
       propertyPath: m_HorizontalAlignment
       value: 2
       objectReference: {fileID: 0}
@@ -48233,7 +48269,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5662967202063836098, guid: 571c5bacb548ab04b85f3a47a242904a, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 256.2008
+      value: 512.9652
       objectReference: {fileID: 0}
     - target: {fileID: 5662967202063836098, guid: 571c5bacb548ab04b85f3a47a242904a, type: 3}
       propertyPath: m_LocalPosition.x
@@ -48285,7 +48321,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7803387017749342151, guid: 571c5bacb548ab04b85f3a47a242904a, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 619.3234
+      value: 1731.681
+      objectReference: {fileID: 0}
+    - target: {fileID: 7803387017749342151, guid: 571c5bacb548ab04b85f3a47a242904a, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 333.5248
       objectReference: {fileID: 0}
     - target: {fileID: 7803387017749342151, guid: 571c5bacb548ab04b85f3a47a242904a, type: 3}
       propertyPath: m_AnchoredPosition.x

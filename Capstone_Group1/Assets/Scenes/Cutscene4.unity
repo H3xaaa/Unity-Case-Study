@@ -44485,7 +44485,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2868476221289860247, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 792.9981
+      value: 1731.681
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868476221289860247, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 333.5248
       objectReference: {fileID: 0}
     - target: {fileID: 2868476221289860247, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -44495,6 +44499,26 @@ PrefabInstance:
       propertyPath: m_text
       value: Finally, I've collected all the gun parts needed to defeat Tsukasa.
         Now it's time to redeem my clan
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5992773612406646909, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_Name
@@ -44534,7 +44558,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7798902815058388298, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 256.2008
+      value: 512.9652
       objectReference: {fileID: 0}
     - target: {fileID: 7798902815058388298, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_LocalPosition.x
