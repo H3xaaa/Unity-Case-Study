@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6128900367927480252}
   - component: {fileID: 5119005151506642912}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Bullet
   m_TagString: Bullet
   m_Icon: {fileID: 0}
@@ -70,9 +70,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 99582283
+  m_SortingLayer: 3
+  m_SortingOrder: 200
   m_Sprite: {fileID: 21300000, guid: 28632106909579f409c691026cc0ed86, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -97,7 +97,7 @@ GameObject:
   - component: {fileID: 3970289460193896699}
   - component: {fileID: 2569947989119708810}
   - component: {fileID: 5184153385376649812}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Projectile
   m_TagString: Bullet
   m_Icon: {fileID: 0}

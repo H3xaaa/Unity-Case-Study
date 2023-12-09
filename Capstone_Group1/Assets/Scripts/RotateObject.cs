@@ -7,6 +7,8 @@ public class RotateObject : MonoBehaviour
 {
     public float rotationSpeed = 75f;
     public ParticleSystem particles;
+    public AudioClip yourSoundEffect; // Reference to your sound effect clip
+    private AudioSource audioSource;
 
     public float moveSpeed = 5f; // Adjust the speed as needed
     public float moveDistance = 2f; // Adjust the distance of the loop as needed
@@ -30,6 +32,8 @@ public class RotateObject : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         particles.Play();
+        audioSource.clip = yourSoundEffect;
+        audioSource.Play();
         Invoke("DestroyGameObject", 0.3f);
         collectItem++;
         ShowCanvas();

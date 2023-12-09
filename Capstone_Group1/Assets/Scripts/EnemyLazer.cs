@@ -7,6 +7,8 @@ public class EnemyLazer : MonoBehaviour
 {
     public GameObject bullet;
     public Transform bulletPos;
+    public AudioClip yourSoundEffect; // Reference to your sound effect clip
+    private AudioSource audioSource;
 
     private float timer;
     private GameObject player;
@@ -37,6 +39,8 @@ public class EnemyLazer : MonoBehaviour
 
     void shoot()
     {
+        audioSource.clip = yourSoundEffect;
+        audioSource.Play();
         Instantiate(bullet, bulletPos.position, Quaternion.identity);
     }
 }

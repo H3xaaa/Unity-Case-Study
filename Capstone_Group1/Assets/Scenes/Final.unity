@@ -39224,7 +39224,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1138587189}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -39293,6 +39293,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 1558824079614334822, guid: 2416601bfa1a053478e9b3c5c3d6dc8f, type: 3}
   bulletPos: {fileID: 122965327}
+  yourSoundEffect: {fileID: 8300000, guid: ecfe090a735370a4ebb84800fee3b683, type: 3}
 --- !u!114 &1138587199
 MonoBehaviour:
   m_ObjectHideFlags: 0
