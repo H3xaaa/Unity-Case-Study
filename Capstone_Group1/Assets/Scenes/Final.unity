@@ -2876,8 +2876,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -365, y: -53.5}
-  m_SizeDelta: {x: 327.4901, y: 54.43811}
+  m_AnchoredPosition: {x: -521, y: -79}
+  m_SizeDelta: {x: 480.6352, y: 92.7244}
   m_Pivot: {x: 0, y: 0.5}
 --- !u!114 &71376500
 MonoBehaviour:
@@ -35322,9 +35322,9 @@ RectTransform:
   m_Father: {fileID: 71376499}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.5}
-  m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: 307, y: 4.899994}
+  m_AnchorMin: {x: 1, y: 0.5}
+  m_AnchorMax: {x: 1, y: 0.5}
+  m_AnchoredPosition: {x: -15, y: -2}
   m_SizeDelta: {x: 72.9303, y: 74.4836}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &673006913
@@ -39293,7 +39293,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bullet: {fileID: 1558824079614334822, guid: 2416601bfa1a053478e9b3c5c3d6dc8f, type: 3}
   bulletPos: {fileID: 122965327}
-  yourSoundEffect: {fileID: 8300000, guid: ecfe090a735370a4ebb84800fee3b683, type: 3}
 --- !u!114 &1138587199
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -116989,16 +116988,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4455788513632135243, guid: 4712b1acd1326cd43b22a76000521766, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 480.6352
+      objectReference: {fileID: 0}
+    - target: {fileID: 4455788513632135243, guid: 4712b1acd1326cd43b22a76000521766, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 54.43811
+      value: 92.7244
       objectReference: {fileID: 0}
     - target: {fileID: 4455788513632135243, guid: 4712b1acd1326cd43b22a76000521766, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 49
+      value: 71
       objectReference: {fileID: 0}
     - target: {fileID: 4455788513632135243, guid: 4712b1acd1326cd43b22a76000521766, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -53.5
+      value: -88
       objectReference: {fileID: 0}
     - target: {fileID: 4455788513644165725, guid: 4712b1acd1326cd43b22a76000521766, type: 3}
       propertyPath: m_AnchorMax.x

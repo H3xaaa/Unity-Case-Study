@@ -158,8 +158,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 804.6204, y: 218.08951}
+  m_AnchoredPosition: {x: 0.0000076293945, y: 0.000005722046}
+  m_SizeDelta: {x: 1397.5842, y: 723.5225}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9505883
 MonoBehaviour:
@@ -210,15 +210,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 90
+  m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 19
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0.6
   m_wordSpacing: 0.48
@@ -246,7 +246,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: -0.46392822, w: 1.9495697}
+  m_margin: {x: 0, y: 0, z: 2.9086304, w: 1.9495697}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -356,8 +356,36 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2203730329469119268, guid: 8b547fbf904b1b242a2ca2719e102ba5, type: 3}
       propertyPath: m_text
-      value: Hexa is travelling outside the Anvil. But after studying and learning
+      value: Nova is travelling outside the Anvil. But after studying and learning
         all the knowledge outside he came back in the Anvil. To beat the Yamaguchi..
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203730329469119268, guid: 8b547fbf904b1b242a2ca2719e102ba5, type: 3}
+      propertyPath: m_fontSize
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203730329469119268, guid: 8b547fbf904b1b242a2ca2719e102ba5, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203730329469119268, guid: 8b547fbf904b1b242a2ca2719e102ba5, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203730329469119291, guid: 8b547fbf904b1b242a2ca2719e102ba5, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1618.8933
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203730329469119291, guid: 8b547fbf904b1b242a2ca2719e102ba5, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 590.5371
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203730329469119291, guid: 8b547fbf904b1b242a2ca2719e102ba5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.000024795532
+      objectReference: {fileID: 0}
+    - target: {fileID: 2203730329469119291, guid: 8b547fbf904b1b242a2ca2719e102ba5, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0.000009536743
       objectReference: {fileID: 0}
     - target: {fileID: 2203730329730467299, guid: 8b547fbf904b1b242a2ca2719e102ba5, type: 3}
       propertyPath: m_Name
@@ -661,7 +689,7 @@ RectTransform:
   m_Children:
   - {fileID: 1759467740124008463}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -64868,6 +64896,14 @@ PlayableDirector:
     value: {fileID: 298707048}
   - key: {fileID: 1144731336437716533, guid: 6073efdbe5d5eb14b8d4d6995dd69ff2, type: 2}
     value: {fileID: 1759467740124008464}
+  - key: {fileID: -7771646654452778972, guid: 6073efdbe5d5eb14b8d4d6995dd69ff2, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 4596357994220045376, guid: 6073efdbe5d5eb14b8d4d6995dd69ff2, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: 247620235241630997, guid: 6073efdbe5d5eb14b8d4d6995dd69ff2, type: 2}
+    value: {fileID: 0}
+  - key: {fileID: -3378075380472307314, guid: 6073efdbe5d5eb14b8d4d6995dd69ff2, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &1281535627
@@ -64883,7 +64919,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1342863630
 GameObject:
@@ -65169,8 +65205,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 804.6204, y: 218.0895}
+  m_AnchoredPosition: {x: 0.000015258789, y: 0.00000333786}
+  m_SizeDelta: {x: 1622.5447, y: 696.4291}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1806334851
 MonoBehaviour:
@@ -65222,15 +65258,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 90
+  m_fontSizeBase: 90
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 17
   m_HorizontalAlignment: 2
-  m_VerticalAlignment: 256
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0.6
   m_wordSpacing: 1.08
@@ -65303,7 +65339,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -65482,9 +65518,53 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 939830173}
     m_Modifications:
+    - target: {fileID: 2868476221289860247, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868476221289860247, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868476221289860247, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 1731.681
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868476221289860247, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 333.5248
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868476221289860247, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -0.000017166138
+      objectReference: {fileID: 0}
+    - target: {fileID: 2868476221289860247, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_text
-      value: I must enter the Edge to find my house. I hope it's not found by Tsukasa
+      value: I must enter the Edge to find my house. I hope it's not found by Tsukasa.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_fontSize
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_fontStyle
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 3956168650403104658, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5992773612406646909, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_Name
@@ -65524,7 +65604,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7798902815058388298, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 256.2008
+      value: 512.9652
       objectReference: {fileID: 0}
     - target: {fileID: 7798902815058388298, guid: 7ba7cf1429f68bf46882fa2fd038e5a6, type: 3}
       propertyPath: m_LocalPosition.x
@@ -65660,7 +65740,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6261176542732556443, guid: 6d86104308ee8744ea4537ccc5b94734, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 6261176542732556443, guid: 6d86104308ee8744ea4537ccc5b94734, type: 3}
       propertyPath: m_LocalPosition.x
