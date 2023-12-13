@@ -140,7 +140,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6261176542732556442, guid: 6d86104308ee8744ea4537ccc5b94734, type: 3}
       propertyPath: changeTime
-      value: 3
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 6261176542732556443, guid: 6d86104308ee8744ea4537ccc5b94734, type: 3}
       propertyPath: m_RootOrder
@@ -30020,6 +30020,8 @@ PlayableDirector:
     value: {fileID: 1180251407}
   - key: {fileID: -8308569335982229496, guid: 562f937b6f96ea049a78b18d41b57ea8, type: 2}
     value: {fileID: 591163263}
+  - key: {fileID: 1910684191714889977, guid: 562f937b6f96ea049a78b18d41b57ea8, type: 2}
+    value: {fileID: 0}
   m_ExposedReferences:
     m_References: []
 --- !u!4 &1849408889 stripped

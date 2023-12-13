@@ -19441,16 +19441,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4455788513632135243, guid: 4712b1acd1326cd43b22a76000521766, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 610.1008
+      objectReference: {fileID: 0}
+    - target: {fileID: 4455788513632135243, guid: 4712b1acd1326cd43b22a76000521766, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 54.43811
+      value: 124.3552
       objectReference: {fileID: 0}
     - target: {fileID: 4455788513632135243, guid: 4712b1acd1326cd43b22a76000521766, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 70
+      value: 71
       objectReference: {fileID: 0}
     - target: {fileID: 4455788513632135243, guid: 4712b1acd1326cd43b22a76000521766, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -55
+      value: -92.04449
       objectReference: {fileID: 0}
     - target: {fileID: 4455788513644165725, guid: 4712b1acd1326cd43b22a76000521766, type: 3}
       propertyPath: m_AnchorMax.x
