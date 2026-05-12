@@ -95,8 +95,9 @@ GameObject:
   - component: {fileID: 7600321261644597928}
   - component: {fileID: 6232669664054911553}
   - component: {fileID: 3970289460193896699}
-  - component: {fileID: 2569947989119708810}
   - component: {fileID: 5184153385376649812}
+  - component: {fileID: -1583842731691862367}
+  - component: {fileID: -2874865334513740890}
   m_Layer: 6
   m_Name: Projectile
   m_TagString: Bullet
@@ -157,20 +158,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 2
---- !u!114 &2569947989119708810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5983819045131121707}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1078168fb5ccee846acea52d2ea3c2a1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Speed: 40
-  Lifetime: 0.3
 --- !u!114 &5184153385376649812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -183,3 +170,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd7495003abcc8448a48d3ead2cb3ac4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1583842731691862367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5983819045131121707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1d23b6388ad3dba4580cb8fe4de84c15, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 10
+  lifetime: 5
+  damage: 1
+  ownerRole: p1
+--- !u!114 &-2874865334513740890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5983819045131121707}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1078168fb5ccee846acea52d2ea3c2a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Speed: 4.5
+  Lifetime: 8
