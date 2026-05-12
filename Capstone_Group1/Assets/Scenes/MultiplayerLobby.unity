@@ -275,7 +275,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &460826253
 RectTransform:
   m_ObjectHideFlags: 0
@@ -367,6 +367,58 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &613152691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 613152693}
+  - component: {fileID: 613152692}
+  m_Layer: 0
+  m_Name: RoomFire
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &613152692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613152691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c48134a41df5814a851072597d5583d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pnlRoomSelect: {fileID: 460826252}
+  pnlJoinInput: {fileID: 1752458892}
+  inputJoinCode: {fileID: 2100085907}
+  txtJoinError: {fileID: 1440761104}
+  txtStatus: {fileID: 691707514}
+  btnCreate: {fileID: 696789706}
+  btnConfirmJoin: {fileID: 1799182684}
+  lobbyWaitScene: LobbyWait
+--- !u!4 &613152693
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613152691}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 328.3431, y: 185.13567, z: -0.13318853}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &676128140
 GameObject:
@@ -731,7 +783,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 696789707}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 613152692}
+        m_TargetAssemblyTypeName: FirebaseRoomManager, Assembly-CSharp
+        m_MethodName: OnCreateRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &696789707
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1123,7 +1187,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 966290357}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 613152692}
+        m_TargetAssemblyTypeName: FirebaseRoomManager, Assembly-CSharp
+        m_MethodName: OnJoinRoom
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &966290357
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1380,7 +1456,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1317707810}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 613152692}
+        m_TargetAssemblyTypeName: FirebaseRoomManager, Assembly-CSharp
+        m_MethodName: OnBackToSelect
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1317707810
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2172,7 +2260,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1752458893
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2281,7 +2369,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1799182685}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 613152692}
+        m_TargetAssemblyTypeName: FirebaseRoomManager, Assembly-CSharp
+        m_MethodName: OnShowJoin
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1799182685
 MonoBehaviour:
   m_ObjectHideFlags: 0

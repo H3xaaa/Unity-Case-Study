@@ -9,6 +9,12 @@ EditorBuildSettings:
     path: Assets/Scenes/Start Menu.unity
     guid: 432f9e9fe0d706146aef6822ac416586
   - enabled: 1
+    path: Assets/Scenes/MultiplayerLobby.unity
+    guid: 4c5f44fed4b443542a00da7bcc250a57
+  - enabled: 1
+    path: Assets/Scenes/LobbyWait.unity
+    guid: 762a3d4535f37204688e68fb5886e2a7
+  - enabled: 1
     path: Assets/Scenes/Cutscene1.unity
     guid: 444eefb66aeaf0943bd562b00043b865
   - enabled: 1
