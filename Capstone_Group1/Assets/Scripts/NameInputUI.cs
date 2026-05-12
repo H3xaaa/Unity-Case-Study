@@ -26,7 +26,6 @@ public class NameInputUI : MonoBehaviour
     {
         string playerName = inputPlayerName.text.Trim();
 
-        // Validation
         if (string.IsNullOrEmpty(playerName))
         {
             txtError.text = "Please enter a name.";
@@ -38,14 +37,15 @@ public class NameInputUI : MonoBehaviour
             return;
         }
 
-        // Save name globally
         PlayerSession.SetPlayerName(playerName);
         txtError.text = "";
 
-        // Go to multiplayer lobby
+        // Force sign out before going to lobby
+        // This ensures each player gets a unique UID
+        Firebase.Auth.FirebaseAuth.DefaultInstance.SignOut();
+
         SceneManager.LoadScene(mpLobbyScene);
     }
-
     // Called when user types — clears error message live
     public void OnNameChanged()
     {

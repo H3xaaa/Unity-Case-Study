@@ -82,6 +82,9 @@ public class FirebaseRoomManager : MonoBehaviour
 
     private void SignInAnonymously()
     {
+        // Sign out first to force a fresh UID
+        _auth.SignOut();
+
         _auth.SignInAnonymouslyAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted || task.IsCanceled)

@@ -92677,8 +92677,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'BOSS STAGE : ACHIEVE VICTORY BY DEFEATING THE FORMIDABLE ENEMY TO SUCCESSFULLY
-    CONCLUDE THE GAME.'
+  m_text: FIGHT
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 30fd9913a15373e4bbf5549910d22edb, type: 2}
   m_sharedMaterial: {fileID: 6915338927214086025, guid: 30fd9913a15373e4bbf5549910d22edb, type: 2}
@@ -92705,8 +92704,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 130
-  m_fontSizeBase: 130
+  m_fontSize: 400
+  m_fontSizeBase: 400
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
