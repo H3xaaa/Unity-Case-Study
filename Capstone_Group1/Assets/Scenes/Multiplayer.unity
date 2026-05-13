@@ -6700,6 +6700,7 @@ GameObject:
   - component: {fileID: 357692730}
   - component: {fileID: 357692727}
   - component: {fileID: 357692732}
+  - component: {fileID: 357692733}
   m_Layer: 0
   m_Name: Flag
   m_TagString: Flag
@@ -6793,8 +6794,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 357692726}
   m_LocalRotation: {x: -0, y: 1, z: -0, w: 0}
-  m_LocalPosition: {x: 136.13, y: 9.24, z: 0}
-  m_LocalScale: {x: 0.5084722, y: 0.5213974, z: 2.0039103}
+  m_LocalPosition: {x: 138.7, y: 17.3, z: 0}
+  m_LocalScale: {x: 0.7815726, y: 0.80143994, z: 3.0802104}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1500706034}
@@ -6816,6 +6817,27 @@ MonoBehaviour:
   colorNeutral: {r: 1, g: 1, b: 1, a: 1}
   colorP1: {r: 1, g: 0, b: 0, a: 1}
   colorP2: {r: 0, g: 0, b: 1, a: 1}
+--- !u!50 &357692733
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 357692726}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &359139787 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 191484641054700467, guid: 7ba0014f9c19a944b98bac6d59f04308, type: 3}
@@ -41147,22 +41169,10 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 359139792}
-        m_TargetAssemblyTypeName: Pause, Assembly-CSharp
-        m_MethodName: BackButton
+      - m_Target: {fileID: 1776634700}
+        m_TargetAssemblyTypeName: MPWinnerUI, Assembly-CSharp
+        m_MethodName: OnLeave
         m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 359139787}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -94398,7 +94408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   jumpForce: 7
-  maxJumps: 1
+  maxJumps: 2
   projectilePrefab: {fileID: 5983819045131121707, guid: a0da1069f80d24b45b354a592670bcc5, type: 3}
   launchOffset: {fileID: 1715354592}
   shootSFX: {fileID: 8300000, guid: d6acdf4b24b517f479bf6c2154db7ad8, type: 3}
@@ -94911,7 +94921,7 @@ MonoBehaviour:
   losePanel: {fileID: 705103863}
   txtLoseTitle: {fileID: 1251383422}
   txtLoseSub: {fileID: 2070459660}
-  playAgainScene: MultiplayerGame
+  playAgainScene: MultiplayerLobby
   mainMenuScene: Start Menu
 --- !u!1 &1869851904
 GameObject:
