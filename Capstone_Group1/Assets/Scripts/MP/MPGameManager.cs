@@ -6,12 +6,7 @@ using Firebase.Database;
 using Firebase.Extensions;
 
 // ============================================================
-// MPGameManager.cs
-// - Host controls Player 1, Guest controls Player 2
-// - Disables opponent MPPlayerMovement
-// - Initializes MPPositionSync on both players
-// - Syncs HP via Firebase
-// - Shows winner panel
+// MPGameManager.cs — FINAL WITH NAME + HEALTH FIX
 // ============================================================
 
 public class MPGameManager : MonoBehaviour
@@ -24,13 +19,21 @@ public class MPGameManager : MonoBehaviour
     public Transform spawnP1;
     public Transform spawnP2;
 
-    [Header("Health Bars")]
+    [Header("Health UI")]
     public HealthBar healthBarP1;
     public HealthBar healthBarP2;
+    public GameObject healthCanvasP1;       // HealthCanvas1 GameObject
+    public GameObject healthCanvasP2;       // HealthCanvas2 GameObject
+
+    [Header("Name Display")]
+    public TextMeshProUGUI txtNameP1;       // TMP text showing P1 name
+    public TextMeshProUGUI txtNameP2;       // TMP text showing P2 name
 
     [Header("Winner UI")]
-    public GameObject winnerPanel;
-    public TextMeshProUGUI txtWinner;
+    public MPWinnerUI winnerUI;
+
+    [Header("In-Game Leave Button")]
+    public GameObject btnLeaveInGame;
 
     [Header("Settings")]
     public int maxHP = 3;
@@ -42,18 +45,17 @@ public class MPGameManager : MonoBehaviour
 
     private void Start()
     {
-        if (winnerPanel != null)
-            winnerPanel.SetActive(false);
-
         _myRole = PlayerSession.IsHost ? "p1" : "p2";
         _opponentRole = PlayerSession.IsHost ? "p2" : "p1";
 
-        Debug.Log("MPGameManager Start — IsHost: " + PlayerSession.IsHost + " | Role: " + _myRole);
+        Debug.Log("MPGameManager — IsHost: " + PlayerSession.IsHost + " | Role: " + _myRole);
+        Debug.Log("START — IsHost: " + PlayerSession.IsHost);
+        Debug.Log("START — PlayerName: " + PlayerSession.PlayerName);
 
         string code = PlayerSession.RoomCode;
         if (string.IsNullOrEmpty(code))
         {
-            Debug.LogError("RoomCode is empty! PlayerSession may have been cleared.");
+            Debug.LogError("RoomCode empty! PlayerSession was cleared.");
             return;
         }
 
@@ -61,33 +63,71 @@ public class MPGameManager : MonoBehaviour
             "https://starlandsexam-default-rtdb.asia-southeast1.firebasedatabase.app")
             .RootReference.Child("rooms").Child(code);
 
+        // Show health canvases
+        if (healthCanvasP1 != null) healthCanvasP1.SetActive(true);
+        if (healthCanvasP2 != null) healthCanvasP2.SetActive(true);
+
+        // Set local player name immediately
+        if (PlayerSession.IsHost)
+        {
+            if (txtNameP1 != null) txtNameP1.text = PlayerSession.PlayerName;
+            if (txtNameP2 != null) txtNameP2.text = "Opponent";
+        }
+        else
+        {
+            if (txtNameP2 != null) txtNameP2.text = PlayerSession.PlayerName;
+            if (txtNameP1 != null) txtNameP1.text = "Opponent";
+        }
+
+        // Fetch opponent name from Firebase
+        _roomRef.Child("players").GetValueAsync().ContinueWithOnMainThread(task =>
+        {
+            if (task.IsFaulted) return;
+            foreach (var snap in task.Result.Children)
+            {
+                if (snap.Key != PlayerSession.PlayerUID)
+                {
+                    string oppName = snap.Child("name").Value?.ToString() ?? "Opponent";
+                    if (PlayerSession.IsHost)
+                    {
+                        if (txtNameP2 != null) txtNameP2.text = oppName;
+                    }
+                    else
+                    {
+                        if (txtNameP1 != null) txtNameP1.text = oppName;
+                    }
+                }
+            }
+        });
+
         SetupPlayers();
 
-        // Host initializes HP
         if (PlayerSession.IsHost)
         {
             _roomRef.Child("players_hp").Child("p1").SetValueAsync(maxHP);
             _roomRef.Child("players_hp").Child("p2").SetValueAsync(maxHP);
+            _roomRef.Child("leaver").RemoveValueAsync();
         }
 
-        // Init health bars
         if (healthBarP1 != null) healthBarP1.SetMaxHealth(maxHP);
         if (healthBarP2 != null) healthBarP2.SetMaxHealth(maxHP);
 
-        // Listen for HP changes
         _roomRef.Child("players_hp").ValueChanged += OnHPChanged;
+        _roomRef.Child("leaver").ValueChanged += OnLeaverDetected;
     }
 
     private void OnDestroy()
     {
         if (_roomRef != null)
+        {
             _roomRef.Child("players_hp").ValueChanged -= OnHPChanged;
+            _roomRef.Child("leaver").ValueChanged -= OnLeaverDetected;
+        }
     }
 
     // ── Setup players ─────────────────────────────────────────
     private void SetupPlayers()
     {
-        // Move to spawn points
         if (spawnP1 != null && player1Object != null)
             player1Object.transform.position = spawnP1.position;
         if (spawnP2 != null && player2Object != null)
@@ -95,60 +135,126 @@ public class MPGameManager : MonoBehaviour
 
         if (PlayerSession.IsHost)
         {
-            // HOST controls Player 1
-            EnablePlayerInput(player1Object, true);
-            EnablePlayerInput(player2Object, false);
+            EnableInput(player1Object, true);
+            EnableInput(player2Object, false);
 
-            player1Object.tag = "Player";
-            player2Object.tag = "Opponent";
+            // IMPORTANT: set tags before anything else
+            SetTag(player1Object, "Player");
+            SetTag(player2Object, "Opponent");
 
             SetProjectileOwner(player1Object, "p1");
             SetProjectileOwner(player2Object, "p2");
-
             SetCameraTarget(player1Object);
-
-            // Position sync — P1 is local, P2 is remote
-            InitPositionSync(player1Object, "p1", isLocal: true);
-            InitPositionSync(player2Object, "p2", isLocal: false);
-
-            Debug.Log("HOST setup complete — controlling Player 1");
+            InitPositionSync(player1Object, "p1", true);
+            InitPositionSync(player2Object, "p2", false);
         }
         else
         {
-            // GUEST controls Player 2
-            EnablePlayerInput(player2Object, true);
-            EnablePlayerInput(player1Object, false);
+            EnableInput(player2Object, true);
+            EnableInput(player1Object, false);
 
-            player2Object.tag = "Player";
-            player1Object.tag = "Opponent";
+            SetTag(player2Object, "Player");
+            SetTag(player1Object, "Opponent");
 
             SetProjectileOwner(player1Object, "p1");
             SetProjectileOwner(player2Object, "p2");
-
             SetCameraTarget(player2Object);
-
-            // Position sync — P2 is local, P1 is remote
-            InitPositionSync(player2Object, "p2", isLocal: true);
-            InitPositionSync(player1Object, "p1", isLocal: false);
-
-            Debug.Log("GUEST setup complete — controlling Player 2");
+            InitPositionSync(player2Object, "p2", true);
+            InitPositionSync(player1Object, "p1", false);
         }
     }
 
+    // ── HP listener ───────────────────────────────────────────
+    private void OnHPChanged(object sender, ValueChangedEventArgs e)
+    {
+        if (_gameOver || !e.Snapshot.Exists) return;
+
+        int p1HP = maxHP, p2HP = maxHP;
+        if (e.Snapshot.Child("p1").Exists)
+            int.TryParse(e.Snapshot.Child("p1").Value?.ToString(), out p1HP);
+        if (e.Snapshot.Child("p2").Exists)
+            int.TryParse(e.Snapshot.Child("p2").Value?.ToString(), out p2HP);
+
+        if (healthBarP1 != null) healthBarP1.SetHealth(p1HP);
+        if (healthBarP2 != null) healthBarP2.SetHealth(p2HP);
+
+        if (p1HP <= 0 && p2HP <= 0)
+            ShowResult("DRAW!", "");
+        else if (p1HP <= 0)
+            ShowResult(
+                PlayerSession.IsHost ? "YOU LOSE" : "YOU WIN! 🏆",
+                PlayerSession.IsHost ? "" : "Enemy eliminated!");
+        else if (p2HP <= 0)
+            ShowResult(
+                PlayerSession.IsHost ? "YOU WIN! 🏆" : "YOU LOSE",
+                PlayerSession.IsHost ? "Enemy eliminated!" : "");
+    }
+
+    // ── Leaver listener ───────────────────────────────────────
+    private void OnLeaverDetected(object sender, ValueChangedEventArgs e)
+    {
+        if (_gameOver || !e.Snapshot.Exists) return;
+        string leaverUID = e.Snapshot.Value?.ToString();
+        if (string.IsNullOrEmpty(leaverUID)) return;
+
+        if (leaverUID != PlayerSession.PlayerUID)
+            ShowResult("YOU WIN! 🏆", "Opponent left the game.");
+    }
+
+    // ── In-game leave button ──────────────────────────────────
+    public void OnInGameLeave()
+    {
+        if (_roomRef == null) return;
+        _roomRef.Child("leaver").SetValueAsync(PlayerSession.PlayerUID)
+            .ContinueWithOnMainThread(_ =>
+            {
+                if (PlayerSession.IsHost) _roomRef.RemoveValueAsync();
+                PlayerSession.Clear();
+                SceneManager.LoadScene("Start Menu");
+            });
+    }
+
+    // ── Damage ────────────────────────────────────────────────
+    public void DealDamageToRole(string targetRole, int amount)
+    {
+        if (_roomRef == null || _gameOver) return;
+        _roomRef.Child("players_hp").Child(targetRole).GetValueAsync()
+            .ContinueWithOnMainThread(task =>
+            {
+                if (task.IsFaulted) return;
+                int hp = maxHP;
+                if (task.Result.Exists)
+                    int.TryParse(task.Result.Value?.ToString(), out hp);
+                int newHP = Mathf.Max(0, hp - amount);
+                _roomRef.Child("players_hp").Child(targetRole).SetValueAsync(newHP);
+                Debug.Log("Damage to " + targetRole + ": " + hp + " → " + newHP);
+            });
+    }
+
+    // ── Show result ───────────────────────────────────────────
+    private void ShowResult(string result, string subtitle)
+    {
+        if (_gameOver) return;
+        _gameOver = true;
+        EnableInput(player1Object, false);
+        EnableInput(player2Object, false);
+        if (btnLeaveInGame != null) btnLeaveInGame.SetActive(false);
+        if (winnerUI != null) winnerUI.ShowResult(result, subtitle);
+    }
+
     // ── Helpers ───────────────────────────────────────────────
-    private void EnablePlayerInput(GameObject player, bool enable)
+    private void SetTag(GameObject obj, string tag)
+    {
+        if (obj == null) return;
+        try { obj.tag = tag; }
+        catch { Debug.LogError("Tag '" + tag + "' not defined! Add it in Project Settings → Tags."); }
+    }
+
+    private void EnableInput(GameObject player, bool enable)
     {
         if (player == null) return;
         MPPlayerMovement mv = player.GetComponent<MPPlayerMovement>();
-        if (mv != null)
-        {
-            mv.enabled = enable;
-            Debug.Log((enable ? "ENABLED" : "DISABLED") + " input on: " + player.name);
-        }
-        else
-        {
-            Debug.LogWarning("MPPlayerMovement not found on: " + player.name);
-        }
+        if (mv != null) mv.enabled = enable;
     }
 
     private void SetProjectileOwner(GameObject player, string role)
@@ -162,91 +268,13 @@ public class MPGameManager : MonoBehaviour
     {
         if (target == null) return;
         MPCameraController cam = Camera.main?.GetComponent<MPCameraController>();
-        if (cam != null)
-            cam.SetTarget(target.transform);
-        else
-            Debug.LogWarning("MPCameraController not found on Main Camera!");
+        if (cam != null) cam.SetTarget(target.transform);
     }
 
     private void InitPositionSync(GameObject player, string role, bool isLocal)
     {
         if (player == null) return;
         MPPositionSync sync = player.GetComponent<MPPositionSync>();
-        if (sync != null)
-        {
-            sync.Initialize(role, isLocal);
-            Debug.Log("PositionSync initialized: " + player.name + " role=" + role + " local=" + isLocal);
-        }
-        else
-        {
-            Debug.LogWarning("MPPositionSync not found on: " + player.name + " — add it!");
-        }
-    }
-
-    // ── HP Sync ───────────────────────────────────────────────
-    private void OnHPChanged(object sender, ValueChangedEventArgs e)
-    {
-        if (_gameOver || !e.Snapshot.Exists) return;
-
-        int p1HP = maxHP;
-        int p2HP = maxHP;
-
-        if (e.Snapshot.Child("p1").Exists)
-            int.TryParse(e.Snapshot.Child("p1").Value?.ToString(), out p1HP);
-        if (e.Snapshot.Child("p2").Exists)
-            int.TryParse(e.Snapshot.Child("p2").Value?.ToString(), out p2HP);
-
-        if (healthBarP1 != null) healthBarP1.SetHealth(p1HP);
-        if (healthBarP2 != null) healthBarP2.SetHealth(p2HP);
-
-        Debug.Log($"HP Update — P1: {p1HP} | P2: {p2HP}");
-
-        if (p1HP <= 0 && p2HP <= 0)
-            ShowResult("DRAW!");
-        else if (p1HP <= 0)
-            ShowResult(PlayerSession.IsHost ? "YOU LOSE" : "YOU WIN! 🏆");
-        else if (p2HP <= 0)
-            ShowResult(PlayerSession.IsHost ? "YOU WIN! 🏆" : "YOU LOSE");
-    }
-
-    // ── Called by MPProjectile when it hits opponent ──────────
-    public void DealDamageToRole(string targetRole, int amount)
-    {
-        if (_roomRef == null) return;
-
-        _roomRef.Child("players_hp").Child(targetRole).GetValueAsync()
-            .ContinueWithOnMainThread(task =>
-            {
-                if (task.IsFaulted) return;
-                int currentHP = maxHP;
-                if (task.Result.Exists)
-                    int.TryParse(task.Result.Value?.ToString(), out currentHP);
-                int newHP = Mathf.Max(0, currentHP - amount);
-                _roomRef.Child("players_hp").Child(targetRole).SetValueAsync(newHP);
-                Debug.Log("Dealt " + amount + " damage to " + targetRole + " — new HP: " + newHP);
-            });
-    }
-
-    // ── Win/Lose ──────────────────────────────────────────────
-    private void ShowResult(string message)
-    {
-        if (_gameOver) return;
-        _gameOver = true;
-
-        if (winnerPanel != null) winnerPanel.SetActive(true);
-        if (txtWinner != null) txtWinner.text = message;
-
-        EnablePlayerInput(player1Object, false);
-        EnablePlayerInput(player2Object, false);
-
-        Invoke(nameof(ReturnToMenu), 4f);
-    }
-
-    private void ReturnToMenu()
-    {
-        if (PlayerSession.IsHost && _roomRef != null)
-            _roomRef.Child("players_hp").RemoveValueAsync();
-        PlayerSession.Clear();
-        SceneManager.LoadScene("Start Menu");
+        if (sync != null) sync.Initialize(role, isLocal);
     }
 }

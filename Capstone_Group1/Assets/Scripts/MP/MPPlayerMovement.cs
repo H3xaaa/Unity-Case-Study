@@ -1,13 +1,6 @@
 using System.Collections;
 using UnityEngine;
 
-// ============================================================
-// MPPlayerMovement.cs
-// Multiplayer version of PlayerMovement — uses WASD keyboard
-// instead of joystick. Works on PC, each player on their own PC.
-// Attach to: Player prefab in MultiplayerGame scene
-// ============================================================
-
 public class MPPlayerMovement : MonoBehaviour
 {
     [Header("Movement")]
@@ -16,7 +9,7 @@ public class MPPlayerMovement : MonoBehaviour
     [SerializeField] private int maxJumps = 2;
 
     [Header("Shooting")]
-    public ProjectileBehaiour projectilePrefab;
+    public GameObject projectilePrefab;
     public Transform launchOffset;
     public AudioClip shootSFX;
     private bool canFire = true;
@@ -24,28 +17,29 @@ public class MPPlayerMovement : MonoBehaviour
     [Header("References")]
     public GameObject fallDetector;
 
-    // Private
     private Rigidbody2D rb;
-    private SpriteRenderer sprite;
     private Animator anim;
     private AudioSource audioSource;
     private float dirX = 0f;
     private int jumpCount = 0;
     private bool isCrouching = false;
     private Vector3 respawnPoint;
+    private bool facingRight = true;
 
     private enum MovementState { idle, running, jumping, falling, crouching, shooting }
 
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        sprite = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
 
         respawnPoint = transform.position;
+
+        // Detect initial facing from localScale
+        facingRight = transform.localScale.x > 0;
     }
 
     private void Update()
@@ -56,7 +50,6 @@ public class MPPlayerMovement : MonoBehaviour
         HandleShoot();
         UpdateAnimationState();
 
-        // Keep fall detector in sync
         if (fallDetector != null)
             fallDetector.transform.position = new Vector2(
                 transform.position.x,
@@ -71,22 +64,21 @@ public class MPPlayerMovement : MonoBehaviour
         dirX = h * moveSpeed;
         rb.velocity = new Vector2(dirX, rb.velocity.y);
 
-        // Fix flip — use localScale instead of rotation
-        if (h > 0)
-            transform.localScale = new Vector3(
-                Mathf.Abs(transform.localScale.x),
-                transform.localScale.y,
-                transform.localScale.z);
-        else if (h < 0)
-            transform.localScale = new Vector3(
-                -Mathf.Abs(transform.localScale.x),
-                transform.localScale.y,
-                transform.localScale.z);
+        if (h > 0 && !facingRight) Flip();
+        else if (h < 0 && facingRight) Flip();
+    }
+
+    private void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 s = transform.localScale;
+        s.x *= -1;
+        transform.localScale = s;
     }
 
     private void HandleJump()
     {
-        if (Input.GetButtonDown("Jump") && jumpCount < maxJumps) // Space
+        if (Input.GetButtonDown("Jump") && jumpCount < maxJumps)
         {
             rb.velocity = new Vector2(rb.velocity.x, jumpForce);
             jumpCount++;
@@ -101,19 +93,29 @@ public class MPPlayerMovement : MonoBehaviour
     private void HandleShoot()
     {
         if (Input.GetKeyDown(KeyCode.J) || Input.GetMouseButtonDown(0))
-        {
             FireBullet();
-        }
     }
 
     public void FireBullet()
     {
-        if (!canFire) return;
+        if (!canFire || projectilePrefab == null || launchOffset == null) return;
 
         if (anim != null) anim.SetTrigger("ShootTrigger");
 
-        if (projectilePrefab != null && launchOffset != null)
-            Instantiate(projectilePrefab, launchOffset.position, transform.rotation);
+        // Spawn at launch offset, facing current direction
+        Quaternion shootRot = facingRight
+            ? launchOffset.rotation
+            : Quaternion.Euler(0, 180f, launchOffset.rotation.eulerAngles.z);
+
+        GameObject proj = Instantiate(projectilePrefab, launchOffset.position, shootRot);
+
+        // Set owner role
+        MPProjectileSpawner spawner = GetComponent<MPProjectileSpawner>();
+        if (spawner != null)
+        {
+            MPProjectile mpProj = proj.GetComponent<MPProjectile>();
+            if (mpProj != null) mpProj.ownerRole = spawner.ownerRole;
+        }
 
         if (audioSource != null && shootSFX != null)
         {
@@ -147,20 +149,12 @@ public class MPPlayerMovement : MonoBehaviour
     {
         if (anim == null) return;
 
-        MovementState state;
+        MovementState state = Mathf.Abs(dirX) > 0
+            ? MovementState.running : MovementState.idle;
 
-        if (dirX > 0f || dirX < 0f)
-            state = MovementState.running;
-        else
-            state = MovementState.idle;
-
-        if (rb.velocity.y > .1f)
-            state = MovementState.jumping;
-        else if (rb.velocity.y < -.1f)
-            state = MovementState.falling;
-
-        if (isCrouching)
-            state = MovementState.crouching;
+        if (rb.velocity.y > .1f) state = MovementState.jumping;
+        else if (rb.velocity.y < -.1f) state = MovementState.falling;
+        if (isCrouching) state = MovementState.crouching;
 
         anim.SetInteger("state", (int)state);
     }
