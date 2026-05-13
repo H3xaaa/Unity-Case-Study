@@ -12,12 +12,11 @@ public class MPPlayerMovement : MonoBehaviour
     public GameObject projectilePrefab;
     public Transform launchOffset;
     public AudioClip shootSFX;
+
     private bool canFire = true;
 
-    // ── NEW: Set by MPGameManager to lock shoot direction ──────
-    // p1 must face RIGHT to shoot, p2 must face LEFT to shoot.
-    // This prevents the "shoot backwards" bug.
-    [HideInInspector] public string playerRole = "p1"; // set by MPGameManager
+    // Set by MPGameManager
+    [HideInInspector] public string playerRole = "p1";
 
     [Header("References")]
     public GameObject fallDetector;
@@ -25,28 +24,41 @@ public class MPPlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Animator anim;
     private AudioSource audioSource;
+
     private float dirX = 0f;
     private int jumpCount = 0;
     private bool isCrouching = false;
+
     private Vector3 respawnPoint;
     private bool facingRight = true;
 
-    private enum MovementState { idle, running, jumping, falling, crouching, shooting }
+    private enum MovementState
+    {
+        idle,
+        running,
+        jumping,
+        falling,
+        crouching
+    }
 
+    // ─────────────────────────────────────────────
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
+
         audioSource = GetComponent<AudioSource>();
+
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
 
         respawnPoint = transform.position;
 
-        // Detect initial facing from localScale
+        // Detect initial facing
         facingRight = transform.localScale.x > 0;
     }
 
+    // ─────────────────────────────────────────────
     private void Update()
     {
         HandleMovement();
@@ -56,118 +68,174 @@ public class MPPlayerMovement : MonoBehaviour
         UpdateAnimationState();
 
         if (fallDetector != null)
+        {
             fallDetector.transform.position = new Vector2(
                 transform.position.x,
-                fallDetector.transform.position.y);
+                fallDetector.transform.position.y
+            );
+        }
     }
 
+    // ─────────────────────────────────────────────
     private void HandleMovement()
     {
-        if (isCrouching) return;
+        if (isCrouching)
+            return;
 
         float h = Input.GetAxisRaw("Horizontal");
+
         dirX = h * moveSpeed;
+
         rb.velocity = new Vector2(dirX, rb.velocity.y);
 
-        if (h > 0 && !facingRight) Flip();
-        else if (h < 0 && facingRight) Flip();
+        if (h > 0 && !facingRight)
+            Flip();
+        else if (h < 0 && facingRight)
+            Flip();
     }
 
+    // ─────────────────────────────────────────────
     private void Flip()
     {
         facingRight = !facingRight;
+
         Vector3 s = transform.localScale;
         s.x *= -1;
         transform.localScale = s;
     }
 
+    // ─────────────────────────────────────────────
     private void HandleJump()
     {
-        if (Input.GetButtonDown("Jump") && jumpCount < maxJumps)
+        if (Input.GetButtonDown("Jump") &&
+            jumpCount < maxJumps)
         {
-            rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+            rb.velocity = new Vector2(
+                rb.velocity.x,
+                jumpForce
+            );
+
             jumpCount++;
         }
     }
 
+    // ─────────────────────────────────────────────
     private void HandleCrouch()
     {
-        isCrouching = Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow);
+        isCrouching =
+            Input.GetKey(KeyCode.S) ||
+            Input.GetKey(KeyCode.DownArrow);
     }
 
+    // ─────────────────────────────────────────────
     private void HandleShoot()
     {
-        if (Input.GetKeyDown(KeyCode.J) || Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.J) ||
+            Input.GetMouseButtonDown(0))
+        {
             FireBullet();
+        }
     }
 
+    // ─────────────────────────────────────────────
     public void FireBullet()
     {
-        if (!canFire || projectilePrefab == null || launchOffset == null) return;
-
-        // ── DIRECTIONAL LOCK ───────────────────────────────────
-        // P1 may only shoot when facing RIGHT (toward P2's side)
-        // P2 may only shoot when facing LEFT  (toward P1's side)
-        // This eliminates the "shoot backwards" bug entirely.
-        if (playerRole == "p1" && !facingRight) return;
-        if (playerRole == "p2" && facingRight) return;
-        // ──────────────────────────────────────────────────────
-
-        if (anim != null) anim.SetTrigger("ShootTrigger");
-
-        // Spawn at launch offset, facing current direction
-        Quaternion shootRot = facingRight
-            ? launchOffset.rotation
-            : Quaternion.Euler(0, 180f, launchOffset.rotation.eulerAngles.z);
-
-        GameObject proj = Instantiate(projectilePrefab, launchOffset.position, shootRot);
-
-        // Set owner role on the projectile
-        MPProjectileSpawner spawner = GetComponent<MPProjectileSpawner>();
-        if (spawner != null)
+        if (!canFire ||
+            projectilePrefab == null ||
+            launchOffset == null)
         {
-            MPProjectile mpProj = proj.GetComponent<MPProjectile>();
-            if (mpProj != null) mpProj.ownerRole = spawner.ownerRole;
+            return;
         }
 
-        if (audioSource != null && shootSFX != null)
+        // Direction lock
+        if (playerRole == "p1" && !facingRight)
+            return;
+
+        if (playerRole == "p2" && facingRight)
+            return;
+
+        // Shoot animation
+        if (anim != null)
+            anim.SetTrigger("ShootTrigger");
+
+        // Spawn projectile
+        GameObject proj = Instantiate(
+            projectilePrefab,
+            launchOffset.position,
+            Quaternion.identity
+        );
+
+        // REAL movement direction
+        Vector2 dir = facingRight
+            ? Vector2.right
+            : Vector2.left;
+
+        // Configure projectile
+        MPProjectile mpProj =
+            proj.GetComponent<MPProjectile>();
+
+        if (mpProj != null)
         {
-            audioSource.clip = shootSFX;
-            audioSource.Play();
+            mpProj.ownerRole = playerRole;
+            mpProj.SetDirection(dir);
+        }
+
+        // Sound
+        if (audioSource != null &&
+            shootSFX != null)
+        {
+            audioSource.PlayOneShot(shootSFX);
         }
 
         canFire = false;
+
         StartCoroutine(ResetFireCooldown());
     }
 
+    // ─────────────────────────────────────────────
     private IEnumerator ResetFireCooldown()
     {
         yield return new WaitForSeconds(0.4f);
+
         canFire = true;
     }
 
+    // ─────────────────────────────────────────────
     private void OnCollisionEnter2D(Collision2D col)
     {
         if (col.gameObject.CompareTag("Ground"))
+        {
             jumpCount = 0;
+        }
     }
 
+    // ─────────────────────────────────────────────
     private void OnTriggerEnter2D(Collider2D col)
     {
         if (col.CompareTag("FallDetector"))
+        {
             transform.position = respawnPoint;
+        }
     }
 
+    // ─────────────────────────────────────────────
     private void UpdateAnimationState()
     {
-        if (anim == null) return;
+        if (anim == null)
+            return;
 
-        MovementState state = Mathf.Abs(dirX) > 0
-            ? MovementState.running : MovementState.idle;
+        MovementState state =
+            Mathf.Abs(dirX) > 0
+            ? MovementState.running
+            : MovementState.idle;
 
-        if (rb.velocity.y > .1f) state = MovementState.jumping;
-        else if (rb.velocity.y < -.1f) state = MovementState.falling;
-        if (isCrouching) state = MovementState.crouching;
+        if (rb.velocity.y > 0.1f)
+            state = MovementState.jumping;
+        else if (rb.velocity.y < -0.1f)
+            state = MovementState.falling;
+
+        if (isCrouching)
+            state = MovementState.crouching;
 
         anim.SetInteger("state", (int)state);
     }

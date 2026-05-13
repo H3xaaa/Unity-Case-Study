@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Firebase;
 using Firebase.Database;
-using Firebase.Extensions;
 
 public class MPProjectile : MonoBehaviour
 {
@@ -15,68 +14,112 @@ public class MPProjectile : MonoBehaviour
 
     private DatabaseReference _roomRef;
 
+    // REAL movement direction
+    private Vector2 moveDirection = Vector2.right;
+
+    // ─────────────────────────────────────────────
+    public void SetDirection(Vector2 dir)
+    {
+        moveDirection = dir.normalized;
+
+        // Visual flip
+        if (dir.x < 0)
+        {
+            Vector3 s = transform.localScale;
+            s.x *= -1;
+            transform.localScale = s;
+        }
+    }
+
+    // ─────────────────────────────────────────────
     private void Start()
     {
         Destroy(gameObject, lifetime);
 
         string code = PlayerSession.RoomCode;
-        if (string.IsNullOrEmpty(code)) return;
 
-        _roomRef = FirebaseDatabase.GetInstance(FirebaseApp.DefaultInstance,
+        if (string.IsNullOrEmpty(code))
+            return;
+
+        _roomRef = FirebaseDatabase.GetInstance(
+            FirebaseApp.DefaultInstance,
             "https://starlandsexam-default-rtdb.asia-southeast1.firebasedatabase.app")
-            .RootReference.Child("rooms").Child(code);
-
-        // Only LOCAL bullet writes to Firebase
-        if (!isRemote)
-        {
-            var data = new System.Collections.Generic.Dictionary<string, object>
-            {
-                { "x",    (double)transform.position.x },
-                { "y",    (double)transform.position.y },
-                { "rotZ", (double)transform.rotation.eulerAngles.z },
-                { "role", ownerRole },
-                { "ts",   ServerValue.Timestamp }
-            };
-            _roomRef.Child("bullets").Push().SetValueAsync(data);
-        }
+            .RootReference
+            .Child("rooms")
+            .Child(code);
     }
 
+    // ─────────────────────────────────────────────
     private void Update()
     {
-        transform.position += transform.right * Time.deltaTime * speed;
+        transform.position +=
+            (Vector3)(moveDirection * speed * Time.deltaTime);
     }
 
+    // ─────────────────────────────────────────────
     private void OnTriggerEnter2D(Collider2D other)
     {
-        // CRITICAL: ignore own player so bullet doesn't deflect up
-        if (other.CompareTag("Player")) return;
+        // ─────────────────────────────────────
+        // Ignore self-hit (robust version)
+        // ─────────────────────────────────────
+        if (ownerRole == "p1" && other.gameObject.name.Contains("Player1"))
+            return;
 
-        // Remote bullets = visual only, no damage
+        if (ownerRole == "p2" && other.gameObject.name.Contains("Player2"))
+            return;
+
+        // ─────────────────────────────────────
+        // Remote bullets are visual-only
+        // ─────────────────────────────────────
         if (isRemote)
         {
-            if (other.CompareTag("Ground") || other.CompareTag("Wall") ||
-                other.CompareTag("Platform") || other.CompareTag("Opponent"))
+            if (other.CompareTag("Ground") ||
+                other.CompareTag("Wall") ||
+                other.CompareTag("Platform") ||
+                other.CompareTag("Player") ||
+                other.CompareTag("Opponent"))
+            {
                 Destroy(gameObject);
+            }
+
             return;
         }
 
-        if (other.CompareTag("Opponent"))
+        // ─────────────────────────────────────
+        // DAMAGE LOGIC (FIXED - NO TAG OWNERSHIP DEPENDENCY)
+        // ─────────────────────────────────────
+        if (other.CompareTag("Player") || other.CompareTag("Opponent"))
         {
-            string targetRole = ownerRole == "p1" ? "p2" : "p1";
-            FindObjectOfType<MPGameManager>()?.DealDamageToRole(targetRole, damage);
+            string targetRole =
+                ownerRole == "p1" ? "p2" : "p1";
+
+            FindObjectOfType<MPGameManager>()
+                ?.DealDamageToRole(targetRole, damage);
+
             Destroy(gameObject);
             return;
         }
 
+        // ─────────────────────────────────────
+        // Flag interaction
+        // ─────────────────────────────────────
         if (other.CompareTag("Flag"))
         {
-            other.GetComponent<MPFlag>()?.OnHitByPlayer(ownerRole);
+            other.GetComponent<MPFlag>()
+                ?.OnHitByPlayer(ownerRole);
+
             Destroy(gameObject);
             return;
         }
 
-        if (other.CompareTag("Ground") || other.CompareTag("Wall") ||
+        // ─────────────────────────────────────
+        // Environment collision
+        // ─────────────────────────────────────
+        if (other.CompareTag("Ground") ||
+            other.CompareTag("Wall") ||
             other.CompareTag("Platform"))
+        {
             Destroy(gameObject);
+        }
     }
 }
