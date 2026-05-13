@@ -24,7 +24,7 @@ public class MainMenu : MonoBehaviour
     public void StartButton()
     {
         // Your original story mode logic — untouched
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        SceneManager.LoadScene(storySceneName);
     }
 
     public void SettingsButton()

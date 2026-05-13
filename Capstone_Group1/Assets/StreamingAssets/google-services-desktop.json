@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1049820469134",
+    "project_id": "starlandsexam",
+    "storage_bucket": "starlandsexam.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1049820469134:android:511929e502268b56ca76df",
+        "android_client_info": {
+          "package_name": "com.startlands.game"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAX0WcNx3JxJ2dXUfEoHg9EoA6KJb2Yp6k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
