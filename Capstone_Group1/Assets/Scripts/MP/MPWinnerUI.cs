@@ -7,15 +7,25 @@ using Firebase.Extensions;
 
 // ============================================================
 // MPWinnerUI.cs
-// Attach to WinnerPanel (inactive by default)
-// MPGameManager calls ShowResult() to activate it
+// Has separate WIN and LOSE panels
+// Attach to a parent GameObject that holds both panels
 // ============================================================
 
 public class MPWinnerUI : MonoBehaviour
 {
-    [Header("UI")]
-    public TextMeshProUGUI txtResult;
-    public TextMeshProUGUI txtSubtitle;
+    [Header("Win Panel")]
+    public GameObject winPanel;           // active when you win
+    public TextMeshProUGUI txtWinTitle;   // "YOU WIN!"
+    public TextMeshProUGUI txtWinSub;     // "Enemy eliminated!"
+
+    [Header("Lose Panel")]
+    public GameObject losePanel;          // active when you lose
+    public TextMeshProUGUI txtLoseTitle;  // "YOU LOSE"
+    public TextMeshProUGUI txtLoseSub;    // subtitle
+
+    [Header("Shared Buttons")]
+    // These can be inside both panels or shared
+    // Wire OnClick in Inspector to these methods
 
     [Header("Scenes")]
     public string playAgainScene = "MultiplayerGame";
@@ -23,10 +33,16 @@ public class MPWinnerUI : MonoBehaviour
 
     private DatabaseReference _roomRef;
 
+    private void Awake()
+    {
+        // Hide both panels on start
+        if (winPanel != null) winPanel.SetActive(false);
+        if (losePanel != null) losePanel.SetActive(false);
+        gameObject.SetActive(true); // parent stays active
+    }
+
     private void Start()
     {
-        gameObject.SetActive(false);
-
         string code = PlayerSession.RoomCode;
         if (!string.IsNullOrEmpty(code))
         {
@@ -39,11 +55,32 @@ public class MPWinnerUI : MonoBehaviour
     // Called by MPGameManager
     public void ShowResult(string result, string subtitle = "")
     {
-        gameObject.SetActive(true);
-        if (txtResult != null) txtResult.text = result;
-        if (txtSubtitle != null) txtSubtitle.text = subtitle;
+        bool won = result.Contains("WIN");
+
+        if (won)
+        {
+            if (winPanel != null) winPanel.SetActive(true);
+            if (losePanel != null) losePanel.SetActive(false);
+            if (txtWinTitle != null) txtWinTitle.text = result;
+            if (txtWinSub != null) txtWinSub.text = subtitle;
+        }
+        else if (result.Contains("DRAW"))
+        {
+            // Show both or win panel with draw text
+            if (winPanel != null) winPanel.SetActive(true);
+            if (txtWinTitle != null) txtWinTitle.text = "DRAW!";
+            if (txtWinSub != null) txtWinSub.text = "";
+        }
+        else
+        {
+            if (losePanel != null) losePanel.SetActive(true);
+            if (winPanel != null) winPanel.SetActive(false);
+            if (txtLoseTitle != null) txtLoseTitle.text = result;
+            if (txtLoseSub != null) txtLoseSub.text = subtitle;
+        }
     }
 
+    // ── Buttons ───────────────────────────────────────────────
     public void OnPlayAgain()
     {
         if (_roomRef != null && PlayerSession.IsHost)
