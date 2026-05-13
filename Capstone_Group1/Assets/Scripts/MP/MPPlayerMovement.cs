@@ -67,15 +67,21 @@ public class MPPlayerMovement : MonoBehaviour
     {
         if (isCrouching) return;
 
-        float h = Input.GetAxisRaw("Horizontal"); // A/D or Left/Right arrows
+        float h = Input.GetAxisRaw("Horizontal");
         dirX = h * moveSpeed;
         rb.velocity = new Vector2(dirX, rb.velocity.y);
 
-        // Flip sprite
+        // Fix flip — use localScale instead of rotation
         if (h > 0)
-            transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+            transform.localScale = new Vector3(
+                Mathf.Abs(transform.localScale.x),
+                transform.localScale.y,
+                transform.localScale.z);
         else if (h < 0)
-            transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+            transform.localScale = new Vector3(
+                -Mathf.Abs(transform.localScale.x),
+                transform.localScale.y,
+                transform.localScale.z);
     }
 
     private void HandleJump()
