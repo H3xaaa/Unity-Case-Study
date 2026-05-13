@@ -39484,6 +39484,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4712b1acd1326cd43b22a76000521766, type: 3}
+--- !u!223 &1062357964 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 4455788513421163462, guid: 4712b1acd1326cd43b22a76000521766, type: 3}
+  m_PrefabInstance: {fileID: 1062357963}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1062357965 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4455788513632135242, guid: 4712b1acd1326cd43b22a76000521766, type: 3}
+  m_PrefabInstance: {fileID: 1062357963}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7b01cac01a4c26f4d803faa4174d5769, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1347212998
 GameObject:
   m_ObjectHideFlags: 0
@@ -92034,6 +92050,7 @@ GameObject:
   - component: {fileID: 1512417546}
   - component: {fileID: 1512417545}
   - component: {fileID: 1512417544}
+  - component: {fileID: 1512417553}
   m_Layer: 0
   m_Name: Player 2
   m_TagString: Player
@@ -92072,7 +92089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30311c3f3e3ba354f83d15017674ebe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
+  canvas: {fileID: 1062357964}
   maxHealth: 5
   currentHealth: 5
   healthBar: {fileID: 4455788513660028433}
@@ -92301,6 +92318,22 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -0.304}
+--- !u!114 &1512417553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1512417543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71040735cfb285448e6981a6aeb87bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRole: p2
+  isLocalPlayer: 0
+  uploadRate: 0.1
+  interpolation: 15
 --- !u!1 &1558238567
 GameObject:
   m_ObjectHideFlags: 0
@@ -92349,8 +92382,8 @@ MonoBehaviour:
   player2Object: {fileID: 1512417543}
   spawnP1: {fileID: 50298961}
   spawnP2: {fileID: 317614799}
-  healthBarP1: {fileID: 0}
-  healthBarP2: {fileID: 0}
+  healthBarP1: {fileID: 4455788513660028433}
+  healthBarP2: {fileID: 1062357965}
   winnerPanel: {fileID: 0}
   txtWinner: {fileID: 0}
   maxHP: 3
@@ -92371,6 +92404,7 @@ GameObject:
   - component: {fileID: 1603322336}
   - component: {fileID: 1603322337}
   - component: {fileID: 1603322338}
+  - component: {fileID: 1603322339}
   m_Layer: 0
   m_Name: Player 1
   m_TagString: Player
@@ -92613,7 +92647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30311c3f3e3ba354f83d15017674ebe9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 0}
+  canvas: {fileID: 4455788513660028432}
   maxHealth: 5
   currentHealth: 5
   healthBar: {fileID: 4455788513660028433}
@@ -92638,6 +92672,22 @@ MonoBehaviour:
   launchOffset: {fileID: 1715354592}
   shootSFX: {fileID: 8300000, guid: d6acdf4b24b517f479bf6c2154db7ad8, type: 3}
   fallDetector: {fileID: 530129261}
+--- !u!114 &1603322339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1603322325}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d71040735cfb285448e6981a6aeb87bf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerRole: p1
+  isLocalPlayer: 0
+  uploadRate: 0.1
+  interpolation: 15
 --- !u!1 &1645690210
 GameObject:
   m_ObjectHideFlags: 0
