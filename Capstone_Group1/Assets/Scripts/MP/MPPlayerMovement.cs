@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 
 public class MPPlayerMovement : MonoBehaviour
@@ -13,6 +13,11 @@ public class MPPlayerMovement : MonoBehaviour
     public Transform launchOffset;
     public AudioClip shootSFX;
     private bool canFire = true;
+
+    // ── NEW: Set by MPGameManager to lock shoot direction ──────
+    // p1 must face RIGHT to shoot, p2 must face LEFT to shoot.
+    // This prevents the "shoot backwards" bug.
+    [HideInInspector] public string playerRole = "p1"; // set by MPGameManager
 
     [Header("References")]
     public GameObject fallDetector;
@@ -100,6 +105,14 @@ public class MPPlayerMovement : MonoBehaviour
     {
         if (!canFire || projectilePrefab == null || launchOffset == null) return;
 
+        // ── DIRECTIONAL LOCK ───────────────────────────────────
+        // P1 may only shoot when facing RIGHT (toward P2's side)
+        // P2 may only shoot when facing LEFT  (toward P1's side)
+        // This eliminates the "shoot backwards" bug entirely.
+        if (playerRole == "p1" && !facingRight) return;
+        if (playerRole == "p2" && facingRight) return;
+        // ──────────────────────────────────────────────────────
+
         if (anim != null) anim.SetTrigger("ShootTrigger");
 
         // Spawn at launch offset, facing current direction
@@ -109,7 +122,7 @@ public class MPPlayerMovement : MonoBehaviour
 
         GameObject proj = Instantiate(projectilePrefab, launchOffset.position, shootRot);
 
-        // Set owner role
+        // Set owner role on the projectile
         MPProjectileSpawner spawner = GetComponent<MPProjectileSpawner>();
         if (spawner != null)
         {

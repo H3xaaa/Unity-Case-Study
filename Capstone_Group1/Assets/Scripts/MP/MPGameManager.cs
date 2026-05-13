@@ -7,8 +7,12 @@ using Firebase.Database;
 using Firebase.Extensions;
 
 // ============================================================
-// MPGameManager.cs — FINAL FIXED
-// Fixes: opponent HP bar, winner panel showing
+// MPGameManager.cs
+// Fixes:
+//   1. Calls SetMaxHealth on each player's HealthBar so
+//      the slider starts filled, not empty.
+//   2. Sets playerRole on MPPlayerMovement so the
+//      directional shoot-lock works correctly.
 // ============================================================
 
 public class MPGameManager : MonoBehaviour
@@ -24,7 +28,7 @@ public class MPGameManager : MonoBehaviour
     [Header("Health Bars")]
     public HealthBar healthBarP1;
     public HealthBar healthBarP2;
-    public Slider sliderP1;             // direct slider reference as backup
+    public Slider sliderP1;
     public Slider sliderP2;
 
     [Header("Health Canvases")]
@@ -36,13 +40,13 @@ public class MPGameManager : MonoBehaviour
     public TextMeshProUGUI txtNameP2;
 
     [Header("Winner UI")]
-    public MPWinnerUI winnerUI;         // drag the GameObject with MPWinnerUI here
+    public MPWinnerUI winnerUI;
 
     [Header("In-Game Leave Button")]
     public GameObject btnLeaveInGame;
 
     [Header("Settings")]
-    public int maxHP = 3;
+    public int maxHP = 5;
 
     private DatabaseReference _roomRef;
     private string _myRole;
@@ -51,7 +55,7 @@ public class MPGameManager : MonoBehaviour
 
     private void Start()
     {
-        _myRole       = PlayerSession.IsHost ? "p1" : "p2";
+        _myRole = PlayerSession.IsHost ? "p1" : "p2";
         _opponentRole = PlayerSession.IsHost ? "p2" : "p1";
 
         Debug.Log("MPGameManager Start — IsHost: " + PlayerSession.IsHost + " Role: " + _myRole);
@@ -67,17 +71,14 @@ public class MPGameManager : MonoBehaviour
             "https://starlandsexam-default-rtdb.asia-southeast1.firebasedatabase.app")
             .RootReference.Child("rooms").Child(code);
 
-        // Show BOTH health canvases — both players see both HP bars
+        // Show BOTH health canvases
         if (healthCanvasP1 != null) healthCanvasP1.SetActive(true);
         if (healthCanvasP2 != null) healthCanvasP2.SetActive(true);
 
-        // Set names
         SetNames();
-
-        // Setup player input/tags/camera
         SetupPlayers();
 
-        // Host initializes HP
+        // Host initializes HP in Firebase
         if (PlayerSession.IsHost)
         {
             _roomRef.Child("players_hp").Child("p1").SetValueAsync(maxHP);
@@ -85,13 +86,20 @@ public class MPGameManager : MonoBehaviour
             _roomRef.Child("leaver").RemoveValueAsync();
         }
 
-        // Init health bars
+        // ── FIX 1: Initialize health bars with correct max ────
+        // This is what was missing — sliders had maxValue=0 so they
+        // always showed empty even when value was set.
         InitHealthBar(healthBarP1, sliderP1, maxHP);
         InitHealthBar(healthBarP2, sliderP2, maxHP);
 
-        // Listen
+        // Also tell each player's HealthPlayer component the max
+        // so its own slider reference is initialized too
+        InitPlayerHealthScript(player1Object, maxHP);
+        InitPlayerHealthScript(player2Object, maxHP);
+        // ─────────────────────────────────────────────────────
+
         _roomRef.Child("players_hp").ValueChanged += OnHPChanged;
-        _roomRef.Child("leaver").ValueChanged      += OnLeaverDetected;
+        _roomRef.Child("leaver").ValueChanged += OnLeaverDetected;
     }
 
     private void OnDestroy()
@@ -99,14 +107,13 @@ public class MPGameManager : MonoBehaviour
         if (_roomRef != null)
         {
             _roomRef.Child("players_hp").ValueChanged -= OnHPChanged;
-            _roomRef.Child("leaver").ValueChanged      -= OnLeaverDetected;
+            _roomRef.Child("leaver").ValueChanged -= OnLeaverDetected;
         }
     }
 
     // ── Name display ──────────────────────────────────────────
     private void SetNames()
     {
-        // Set own name immediately
         if (PlayerSession.IsHost)
         {
             if (txtNameP1 != null) txtNameP1.text = PlayerSession.PlayerName;
@@ -118,7 +125,6 @@ public class MPGameManager : MonoBehaviour
             if (txtNameP1 != null) txtNameP1.text = "...";
         }
 
-        // Fetch opponent name from Firebase
         _roomRef.Child("players").GetValueAsync().ContinueWithOnMainThread(task =>
         {
             if (task.IsFaulted) return;
@@ -139,7 +145,6 @@ public class MPGameManager : MonoBehaviour
     // ── Setup players ─────────────────────────────────────────
     private void SetupPlayers()
     {
-        // Move to spawn
         if (spawnP1 != null && player1Object != null)
             player1Object.transform.position = spawnP1.position;
         if (spawnP2 != null && player2Object != null)
@@ -147,8 +152,8 @@ public class MPGameManager : MonoBehaviour
 
         if (PlayerSession.IsHost)
         {
-            EnableInput(player1Object, true);
-            EnableInput(player2Object, false);
+            EnableInput(player1Object, true, "p1");
+            EnableInput(player2Object, false, "p2");
             SetTag(player1Object, "Player");
             SetTag(player2Object, "Opponent");
             SetProjectileOwner(player1Object, "p1");
@@ -159,8 +164,8 @@ public class MPGameManager : MonoBehaviour
         }
         else
         {
-            EnableInput(player2Object, true);
-            EnableInput(player1Object, false);
+            EnableInput(player2Object, true, "p2");
+            EnableInput(player1Object, false, "p1");
             SetTag(player2Object, "Player");
             SetTag(player1Object, "Opponent");
             SetProjectileOwner(player1Object, "p1");
@@ -185,18 +190,15 @@ public class MPGameManager : MonoBehaviour
 
         Debug.Log($"HP Update — P1:{p1HP} P2:{p2HP}");
 
-        // Update bars
         UpdateHealthBar(healthBarP1, sliderP1, p1HP);
         UpdateHealthBar(healthBarP2, sliderP2, p2HP);
 
-        // Check win/lose
         if (p1HP <= 0 && p2HP <= 0)
         {
             ShowResult("DRAW!", "");
         }
         else if (p1HP <= 0)
         {
-            // P1 died
             ShowResult(
                 PlayerSession.IsHost ? "YOU LOSE" : "YOU WIN! 🏆",
                 PlayerSession.IsHost ? "You were eliminated." : "Enemy eliminated!"
@@ -204,7 +206,6 @@ public class MPGameManager : MonoBehaviour
         }
         else if (p2HP <= 0)
         {
-            // P2 died
             ShowResult(
                 PlayerSession.IsHost ? "YOU WIN! 🏆" : "YOU LOSE",
                 PlayerSession.IsHost ? "Enemy eliminated!" : "You were eliminated."
@@ -222,7 +223,6 @@ public class MPGameManager : MonoBehaviour
             ShowResult("YOU WIN! 🏆", "Opponent left the game.");
     }
 
-    // ── In-game leave ─────────────────────────────────────────
     public void OnInGameLeave()
     {
         if (_roomRef == null) return;
@@ -260,34 +260,51 @@ public class MPGameManager : MonoBehaviour
 
         Debug.Log("GAME OVER: " + result);
 
-        EnableInput(player1Object, false);
-        EnableInput(player2Object, false);
+        EnableInput(player1Object, false, "p1");
+        EnableInput(player2Object, false, "p2");
 
         if (btnLeaveInGame != null)
             btnLeaveInGame.SetActive(false);
 
-        // Show winner/loser panel
         if (winnerUI != null)
-        {
             winnerUI.ShowResult(result, subtitle);
-        }
         else
-        {
             Debug.LogError("WinnerUI is NULL! Assign it in mpmanager Inspector.");
-        }
     }
 
     // ── Helpers ───────────────────────────────────────────────
-    private void InitHealthBar(HealthBar hb, UnityEngine.UI.Slider sl, int max)
+
+    /// <summary>
+    /// Initializes the health bar slider with the correct max value.
+    /// Without this, slider.maxValue = 0 and the bar always looks empty.
+    /// </summary>
+    private void InitHealthBar(HealthBar hb, Slider sl, int max)
     {
         if (hb != null) hb.SetMaxHealth(max);
         if (sl != null) { sl.maxValue = max; sl.value = max; }
     }
 
-    private void UpdateHealthBar(HealthBar hb, UnityEngine.UI.Slider sl, int val)
+    private void UpdateHealthBar(HealthBar hb, Slider sl, int val)
     {
         if (hb != null) hb.SetHealth(val);
         if (sl != null) sl.value = val;
+    }
+
+    /// <summary>
+    /// Tells the HealthPlayer script on each player object its max HP
+    /// so its own internal healthBar slider is also initialized.
+    /// </summary>
+    private void InitPlayerHealthScript(GameObject player, int max)
+    {
+        if (player == null) return;
+        HealthPlayer hp = player.GetComponent<HealthPlayer>();
+        if (hp != null)
+        {
+            hp.maxHealth = max;
+            hp.currentHealth = max;
+            if (hp.healthBar != null)
+                hp.healthBar.SetMaxHealth(max);
+        }
     }
 
     private void SetTag(GameObject obj, string tag)
@@ -297,11 +314,20 @@ public class MPGameManager : MonoBehaviour
         catch { Debug.LogError("Tag '" + tag + "' not defined in Project Settings!"); }
     }
 
-    private void EnableInput(GameObject player, bool enable)
+    /// <summary>
+    /// Enables/disables movement and sets the playerRole for shoot-direction locking.
+    /// </summary>
+    private void EnableInput(GameObject player, bool enable, string role)
     {
         if (player == null) return;
         MPPlayerMovement mv = player.GetComponent<MPPlayerMovement>();
-        if (mv != null) mv.enabled = enable;
+        if (mv != null)
+        {
+            mv.enabled = enable;
+            // ── FIX 2: Tell movement script which role this player is
+            // so it can lock shooting to the correct direction
+            mv.playerRole = role;
+        }
     }
 
     private void SetProjectileOwner(GameObject player, string role)
